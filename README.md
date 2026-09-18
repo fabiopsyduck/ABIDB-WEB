@@ -2,16 +2,16 @@
 
 [![Status](https://img.shields.io/badge/Status-Active-success.svg)]()
 [![Season](https://img.shields.io/badge/Season-7-orange.svg)]()
-[![Language](https://img.shields.io/badge/Language-PT--BR%20%7C%20EN--US-blue.svg)]()
+[![Language](https://img.shields.io/badge/Language-EN--US%20%7C%20PT--BR-blue.svg)]()
 
 **ABIDB Web** is a comprehensive, client-side interactive database and ballistic simulator for **Arena Breakout: Infinite**. Evolved from a former PowerShell script, this web application is designed to provide players with highly accurate, rigorously tested in-game data to help them make the best tactical decisions.
 
-🌐 **[Acessar a Ferramenta Online / Live Demo](https://SEU-USUARIO.github.io/SEU-REPOSITORIO/)**  
-*(Não esqueça de substituir o link acima pelo link real do seu GitHub Pages!)*
+🌐 **[Access the Live Demo here](https://YOUR-USERNAME.github.io/YOUR-REPOSITORY/)**  
+*(Remember to replace the link above with your actual GitHub Pages URL!)*
 
 ---
 
-## ✨ Features / Funcionalidades
+## ✨ Features
 
 * 🔍 **Advanced Item Search:** Detailed stats for Weapons, Ammo, Armor, Helmets, Medical items, Food, and more.
 * ⚔️ **Ballistic Simulator:** Calculate precise TTK (Time to Kill), penetration chances, and blunt damage by pitting specific weapon/ammo combos against target armors.
@@ -20,20 +20,20 @@
 * 🪖 **Compatibility Checker:** Instantly see which masks fit which helmets.
 * 🌍 **Bilingual Support:** Instantly toggle between English and Portuguese natively.
 
-## 🛠️ Tecnologias Utilizadas
-Projeto puramente web, focado em performance, rodando 100% no lado do cliente (navegador):
-* HTML5 / CSS3 (Variáveis CSS, Flexbox/Grid)
+## 🛠️ Built With
+This is a pure web project, focused on performance and running 100% client-side:
+* HTML5 / CSS3 (CSS Variables, Flexbox/Grid)
 * Vanilla JavaScript (ES6+)
-* Chart.js (Gráficos interativos)
-* Marked.js (Renderização de artigos Markdown)
-* Dados estruturados em CSV
+* Chart.js (Interactive charts)
+* Marked.js (Markdown article rendering)
+* Structured CSV data
 
-## 📖 Como Usar / How to Use
-Nenhuma instalação é necessária. Basta acessar a [página do projeto (GitHub Pages)](#) no seu navegador (PC ou Mobile). Todos os dados são cacheados localmente para garantir consultas instantâneas durante as suas raids.
+## 📖 How to Use
+No installation is required. Simply access the [project page (GitHub Pages)](#) on your browser (PC or Mobile). All data is cached locally to ensure instant queries during your raids.
 
-## 💬 Comunidade e Contato
-Encontrou algum erro de cálculo, quer sugerir uma nova funcionalidade ou apenas conversar sobre as melhores builds da Temporada 7?
-👉 **[Junte-se ao servidor do Discord](https://discord.gg/Tkp7TgEWgy)**
+## 💬 Community and Contact
+Found a calculation error, want to suggest a new feature, or just chat about the best Season 7 builds?
+👉 **[Join the ABIDB Discord server](https://discord.gg/Tkp7TgEWgy)**
 
 ---
-*Desenvolvido com ☕ por **Fabiopsyduck***
+*Developed with ☕ by **Fabiopsyduck***
