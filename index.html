@@ -1,0 +1,767 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ABIDB - Web</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <!-- TELA DE SELEÇÃO DE IDIOMA -->
+    <div id="language-overlay">
+        <h1 id="lang-title">Selecione o seu idioma / Select your language</h1>
+        <div class="lang-buttons">
+            <button onclick="initApp('pt')">Português (BR)</button>
+            <button onclick="initApp('en')">English</button>
+        </div>
+    </div>
+
+    <!-- APLICATIVO PRINCIPAL (WIDESCREEN) -->
+    <div id="app-container" class="hidden">
+        
+        <!-- Menu Lateral -->
+        <nav id="sidebar" style="display: flex; flex-direction: column;">
+            <h2 id="app-title">ABIDB Web</h2>
+            <hr style="margin-bottom: 15px; border-color: rgba(255,255,255,0.05);">
+            
+            <!-- BLOCO SUPERIOR (Fica colado no topo) -->
+            <div class="sidebar-top" style="display: flex; flex-direction: column;">
+                
+                <!-- Rótulo de Ferramentas (COM ID AGORA) -->
+                <div id="lbl-menu-tools" style="font-size: 0.75rem; color: var(--text-dim); letter-spacing: 1px; margin-bottom: 10px; margin-left: 5px; font-weight: bold;">FERRAMENTAS DE DADOS</div>
+                
+                <button id="nav-search" class="active" onclick="showSection('search-section')">Busca de itens</button>
+                <button id="nav-compare" onclick="showSection('compare-section')">Comparação de Armas</button>
+                <button id="nav-damage" onclick="showSection('damage-section')" style="white-space: nowrap;">Limites de Dano por Alcance</button>
+                <button id="nav-mask-comp" onclick="showSection('mask-comp-section')" style="text-align: center; padding-top: 15px; padding-bottom: 15px; line-height: 1.4;">Compatibilidade<br><span style="font-size: 0.85em; color: var(--text-dim);">Máscaras x Capacetes</span></button>
+                
+                <!-- NOVO BOTÃO SIMULADOR -->
+                <button id="nav-simulator" onclick="showSection('simulator-section')" style="white-space: normal; margin-top: 5px; padding-top: 12px; padding-bottom: 12px; line-height: 1.3; text-align: center;">Simulador Balístico:<br><span style="font-size: 0.85em; color: var(--text-dim);">Arma vs Proteção</span></button>
+                
+                <!-- Rótulo da Biblioteca (COM ID AGORA) -->
+                <div id="lbl-menu-knowledge" style="font-size: 0.75rem; color: var(--text-dim); letter-spacing: 1px; margin-top: 25px; margin-bottom: 10px; margin-left: 5px; font-weight: bold;">CONHECIMENTO</div>
+                
+                <button id="nav-articles" onclick="showSection('articles-section')">Artigos e Guias</button>
+                
+            </div>
+
+            <!-- BLOCO INFERIOR (O "margin-top: auto" joga tudo isso pro fundo da tela) -->
+            <div class="sidebar-bottom" style="margin-top: auto; display: flex; flex-direction: column; gap: 10px; border-top: 1px solid rgba(255,255,255,0.05); padding-top: 20px;">
+                
+                <button id="nav-changelog" onclick="showSection('changelog-section')" style="display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 12px 5px; background-color: rgba(0, 0, 0, 0.2); border: 1px solid rgba(255,255,255,0.05); border-left: 3px solid var(--orange-accent); line-height: 1.4;">
+                    <span id="lbl-nav-changelog-title" style="font-weight: bold; color: var(--text-main);">Changelog</span>
+                    <span id="nav-changelog-date" style="font-size: 0.8em; color: var(--text-dim); margin-top: 3px;">Lendo data...</span>
+                </button>
+                
+                <!-- BOTÃO SOBRE REPOSICIONADO -->
+                <button id="nav-about" onclick="showSection('about-section')" style="background-color: transparent; border: 1px solid var(--button-hover); color: var(--text-main); transition: all 0.2s; padding: 12px 5px; font-weight: bold;" onmouseover="this.style.backgroundColor='var(--button-hover)'" onmouseout="this.style.backgroundColor='transparent'">
+                    Sobre a Ferramenta
+                </button>
+
+                <button id="nav-lang-toggle" onclick="toggleLanguage()" style="background-color: transparent; border: 1px solid var(--text-dim); color: var(--text-dim); transition: all 0.2s;" onmouseover="this.style.color='var(--text-main)'; this.style.borderColor='var(--text-main)'" onmouseout="this.style.color='var(--text-dim)'; this.style.borderColor='var(--text-dim)'">Switch to English</button>
+                
+            </div>
+            
+        </nav>
+
+        <!-- Área de Conteúdo -->
+        <main id="content-area">
+            
+            <!-- SEÇÃO 1: Busca de itens com filtro -->
+            <section id="search-section" class="active-section">
+                <h1 id="title-search">Busca de Itens com Filtro</h1>
+                
+                <!-- SUB-TELA 1: O Menu de Categorias (Botões Grandes) -->
+                <div id="search-menu-view" class="panel">
+                    <p id="desc-search">Escolha a categoria que deseja buscar:</p>
+                    <div class="category-grid">
+                        <button onclick="openSearchGrid('weapons')" id="btn-cat-weapons">Busca de Armas</button>
+                        <button onclick="openSearchGrid('ammo')" id="btn-cat-ammo">Busca de Munição</button>
+                        <button onclick="openSearchGrid('grenades')" id="btn-cat-grenades">Busca de Granadas</button>
+                        <button onclick="openSearchGrid('helmets')" id="btn-cat-helmets">Busca de Capacetes</button>
+                        <button onclick="openSearchGrid('masks')" id="btn-cat-masks">Busca de Máscaras</button>
+                        <button onclick="openSearchGrid('gasMasks')" id="btn-cat-gasmasks">Busca de Máscaras de Gás</button>
+                        <button onclick="openSearchGrid('headsets')" id="btn-cat-headsets">Busca de Fones de Ouvido (Headsets)</button>
+                        <button onclick="openSearchGrid('bodyArmor')" id="btn-cat-bodyarmor">Busca de Coletes Balísticos</button>
+                        <button onclick="openSearchGrid('armoredRigs')" id="btn-cat-armoredrigs">Busca de Coletes Blindados (Rigs)</button>
+                        <button onclick="openSearchGrid('unarmoredRigs')" id="btn-cat-unarmoredrigs">Busca de Coletes Não Blindados</button>
+                        <button onclick="openSearchGrid('backpacks')" id="btn-cat-backpacks">Busca de Mochilas</button>
+                        <button onclick="openSearchGrid('medical')" id="btn-cat-medical">Busca Farmacêutica</button>
+                        <button onclick="openSearchGrid('food')" id="btn-cat-food">Busca Gastronômica</button>
+                    </div>
+                </div>
+
+                <!-- SUB-TELA 2: A Tabela e os Filtros (PnlContent) -->
+                <div id="search-data-view" class="hidden-section">
+                    
+                    <!-- Cabeçalho de Controle (Filtros, Gerar Imagem e Voltar) -->
+                    <div class="panel controls">
+                        <div class="header-controls">
+                            <h2 id="current-category-title" style="color: var(--orange-accent); margin: 0; font-size: 1.2rem;">Armas</h2>
+                            
+                            <!-- Container agrupando os botões da direita -->
+                            <div style="display: flex; gap: 10px;">
+                                <button id="btn-export-image" class="export-btn" onclick="exportarComoImagem('search-data-view', 'Busca_ABIDB')" title="Salvar a tabela atual como uma imagem de alta qualidade (.png)">📷 Exportar Resultados</button>
+                                <button id="btn-back-grid" onclick="closeSearchGrid()">Voltar</button>
+                            </div>
+                        </div>
+                        
+                        <!-- CONTAINER PRINCIPAL DIVIDIDO EM 2 LINHAS (ANDARES) -->
+                        <div style="display: flex; flex-direction: column; gap: 10px; margin-top: 15px;">
+                            
+                            <!-- ANDAR 1: Filtros Globais, Critério e Ordem -->
+                            <div class="filter-group" style="margin-top: 0;">
+                                
+                                <!-- Dropdown de Subcategorias Médicas (Oculto por padrão) -->
+                                <div id="medical-subcategory-container" style="display: none; align-items: center; gap: 10px;">
+                                    <label id="lbl-medical-cat" for="medical-subcategory-select" style="font-weight: bold;">Categoria Farmacêutica:</label>
+                                    <select id="medical-subcategory-select" onchange="changeMedicalSubcategory(this.value)">
+                                        <option id="opt-med-painkillers" value="medical_painkillers">Analgésicos</option>
+                                        <option id="opt-med-bandages" value="medical_bandages">Bandagens</option>
+                                        <option id="opt-med-surgical" value="medical_surgical">Kits Cirúrgicos</option>
+                                        <option id="opt-med-nebulizers" value="medical_nebulizers">Nebulizadores</option>
+                                        <option id="opt-med-medkits" value="medical_medkits">Kits Médicos</option>
+                                        <option id="opt-med-stimulants" value="medical_stimulants">Estimulantes</option>
+                                    </select>
+                                </div>
+
+                                <!-- Dropdown de Subcategorias Gastronômicas (Oculto por padrão) -->
+                                <div id="food-subcategory-container" style="display: none; align-items: center; gap: 10px;">
+                                    <label id="lbl-food-cat" for="food-subcategory-select" style="font-weight: bold;">Categoria Gastronômica:</label>
+                                    <select id="food-subcategory-select" onchange="changeFoodSubcategory(this.value)">
+                                        <option id="opt-food-all" value="food_all">Todas as comidas e bebidas</option>
+                                        <option id="opt-food-items" value="food_items">Comidas</option>
+                                        <option id="opt-food-beverages" value="food_beverages">Bebidas</option>
+                                    </select>
+                                </div>
+
+                                <!-- ALINHAMENTO COLUNA 1: Critério -->
+                                <div style="display: flex; align-items: center; gap: 10px; width: 390px; flex-shrink: 0;">
+                                    <label id="lbl-criteria" for="criteria-select" style="min-width: 65px;">Critério:</label>
+                                    <select id="criteria-select" style="flex-grow: 1;">
+                                        <option value="name">Alfabético</option>
+                                    </select>
+                                </div>
+
+                                <!-- ALINHAMENTO COLUNA 2: Ordem -->
+                                <div style="display: flex; align-items: center; gap: 10px; width: 250px; flex-shrink: 0;">
+                                    <label id="lbl-order" for="order-select" style="min-width: 55px;">Ordem:</label>
+                                    <select id="order-select" style="flex-grow: 1;">
+                                        <option value="asc" id="opt-asc">Crescente</option>
+                                        <option value="desc" id="opt-desc">Decrescente</option>
+                                    </select>
+                                </div>
+
+                                <!-- ALINHAMENTO COLUNA 3: Botão Filtros -->
+                                <button id="btn-filter" onclick="openFilterModal()" style="width: 200px;">Filtros</button>
+                                
+                                <span id="lbl-count" style="margin-left: auto;">Exibindo: 0 itens</span>
+                            </div>
+
+                            <!-- ANDAR 2: Controles Exclusivos da Munição (Oculto por padrão) -->
+                            <div id="ammo-specific-controls" class="filter-group" style="display: none; margin-top: 5px;">
+                                
+                                <!-- ALINHAMENTO COLUNA 1: Categoria (Encaixa abaixo do Critério) -->
+                                <div style="display: flex; align-items: center; gap: 10px; width: 390px; flex-shrink: 0;">
+                                    <label id="lbl-ammo-cat" style="font-weight: bold; min-width: 65px;">Categoria:</label>
+                                    <select id="cbAmmoCat" onchange="changeAmmoCategory(this.value)" style="flex-grow: 1;"></select>
+                                </div>
+
+                                <!-- ALINHAMENTO COLUNA 2: Arma (Encaixa abaixo da Ordem) -->
+                                <div style="display: flex; align-items: center; gap: 10px; width: 250px; flex-shrink: 0;">
+                                    <label id="lbl-ammo-wep" style="font-weight: bold; min-width: 55px;">Arma:</label>
+                                    <select id="cbAmmoWep" onchange="changeAmmoWeapon(this.value)" style="flex-grow: 1;"></select>
+                                </div>
+                                
+                                <!-- ALINHAMENTO COLUNA 3: Botão Resetar (Encaixa abaixo do botão Filtros) -->
+                                <button id="btnAmmoReset" class="ammo-reset-btn" onclick="resetAmmoFilters()" style="width: 200px; background-color: var(--button-back); color: var(--orange-accent); border: 1px solid var(--orange-accent);">Resetar Seleções e Filtros</button>
+                            </div>
+                            
+                        </div>
+                    </div>
+
+                    <!-- Tabela de Dados -->
+                    <div class="panel grid-area">
+                        <table id="data-table">
+                            <thead id="table-head"></thead>
+                            <tbody id="table-body"></tbody>
+                        </table>
+                    </div>
+
+                </div>
+            </section>
+
+            <!-- ==================================================================================== -->
+            <!-- SEÇÃO 2: COMPARAÇÃO DE ARMAS (NOVO DESIGN "CARRINHO INTELIGENTE")                    -->
+            <!-- ==================================================================================== -->
+            <section id="compare-section" class="hidden-section">
+                <!-- flex-shrink: 0 impede o título de ser esmagado -->
+                <h1 id="title-compare" style="flex-shrink: 0; margin-bottom: 0;">Comparação de Armas</h1>
+                
+                <!-- TELA A: SELEÇÃO DE ARMAS (A Vitrine na esquerda e o Carrinho na Direita) -->
+                <!-- A mágica: flex-grow: 1 e min-height: 0 limitam a área ao tamanho exato da tela -->
+                <div id="compare-selection-view" style="display: flex; flex-direction: row; gap: 15px; flex-grow: 1; min-height: 0;">
+                    
+                    <!-- LADO ESQUERDO: Filtros e Vitrine -->
+                    <div style="display: flex; flex-direction: column; gap: 15px; flex-grow: 1; min-width: 0; min-height: 0;">
+                        
+                        <!-- 1. Filtros Dinâmicos -->
+                        <div class="panel controls" style="padding-bottom: 5px; flex-shrink: 0;">
+                            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px;">
+                                <h3 id="lbl-comp-filter-title" style="color: var(--text-main); margin: 0; font-size: 1.1rem;">Filtros de Exclusão (Marque as características que deseja remover do catálogo)</h3>
+                                <button id="btn-comp-reset-filters" onclick="resetCompFilters()" style="padding: 6px 15px; font-size: 0.9rem; font-weight: bold; background-color: transparent; color: var(--orange-accent); border: 1px solid var(--orange-accent); border-radius: 4px; cursor: pointer; transition: all 0.2s;">Limpar Filtros</button>
+                            </div>
+                            
+                            <!-- Container Horizontal com Rolagem -->
+                            <div id="comp-filters-container" style="display: flex; gap: 15px; overflow-x: auto; padding-bottom: 15px;">
+                                <p style="color: var(--text-dim);">Carregando motor de filtros...</p>
+                            </div>
+                        </div>
+                        
+                        <!-- 2. Vitrine de Armas -->
+                        <div class="panel grid-area" style="padding: 15px; display: flex; flex-direction: column; overflow-x: auto; overflow-y: hidden; flex-grow: 1; min-height: 0;">
+                            <div id="comp-weapons-showcase" style="display: flex; gap: 15px; flex-grow: 1; min-height: 0; min-width: max-content; padding-bottom: 5px;">
+                                <!-- As 8 colunas verticais geradas via JS -->
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- LADO DIREITO: Carrinho Vertical -->
+                    <div class="panel" style="display: flex; flex-direction: column; width: 320px; flex-shrink: 0; gap: 15px; min-height: 0;">
+                        
+                        <h3 id="lbl-comp-selected-title" style="color: var(--orange-accent); margin: 0; text-align: center; border-bottom: 1px solid var(--button-back); padding-bottom: 15px; flex-shrink: 0;">
+                            Armas Selecionadas (<span id="comp-selected-count">0</span>/5)
+                        </h3>
+                        
+                        <!-- Lista Vertical de Armas -->
+                        <div id="comp-selected-list" style="display: flex; flex-direction: column; gap: 12px; flex-grow: 1; overflow-y: auto; padding: 5px 0; min-height: 0;">
+                            <p id="lbl-comp-empty" style="color: var(--text-dim); font-style: italic; margin: 0; text-align: center; margin-top: 20px;">
+                                Nenhuma arma selecionada. Escolha na vitrine.
+                            </p>
+                        </div>
+                        
+                        <!-- Ações Principais presas no fundo do painel -->
+                        <div style="display: flex; flex-direction: column; gap: 10px; margin-top: auto; padding-top: 15px; border-top: 1px solid var(--button-back); flex-shrink: 0;">
+                            <button id="btn-comp-clear-all" onclick="clearAllCompSelections()" style="padding: 10px; font-weight: bold; background-color: var(--button-back); color: var(--fail); border: 1px solid var(--fail); border-radius: 4px; cursor: pointer; transition: background 0.2s;">
+                                Limpar Todas as Seleções
+                            </button>
+                            <button id="btn-comp-compare" style="padding: 15px 10px; font-weight: bold; font-size: 1rem; background-color: var(--orange-accent); color: var(--background); border: none; border-radius: 4px; cursor: not-allowed; opacity: 0.5;" disabled>
+                                Comparar Armas Selecionadas
+                            </button>
+                        </div>
+                    </div>
+
+                </div>
+
+                <!-- TELA B: RESULTADOS DA COMPARAÇÃO (Lado a Lado) -->
+                <div id="compare-results-view" class="hidden-section" style="display: flex; flex-direction: column; flex-grow: 1; min-height: 0;">
+                    
+                    <div class="panel controls" style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px; flex-shrink: 0;">
+                        <h2 id="lbl-comp-results-title" style="color: var(--orange-accent); margin: 0;">Resultados da Comparação</h2>
+                        
+                        <div style="display: flex; gap: 10px;">
+                            <button id="btn-comp-export" class="export-btn" onclick="exportarComoImagem('compare-results-view', 'Comparacao_Armas')" title="Salvar a tabela de comparação como imagem (.png)">📷 Exportar Resultados</button>
+                            <button id="btn-comp-back" onclick="backToCompSelection()">Voltar à Seleção</button>
+                        </div>
+                    </div>
+
+                    <div class="panel grid-area" id="comp-results-container" style="padding: 0; flex-grow: 1; overflow-y: auto; min-height: 0;">
+                        <table id="comp-data-table" style="width: 100%; border-collapse: collapse; font-size: 0.95rem;">
+                            <!-- Tabela gerada via JS -->
+                        </table>
+                    </div>
+                </div>
+
+            </section>
+
+            <!-- ==================================================================================== -->
+            <!-- SEÇÃO 3: LIMITES DE DANO POR ALCANCE (O NOVO GRÁFICO)                                -->
+            <!-- ==================================================================================== -->
+            <section id="damage-section" class="hidden-section" style="display: flex; flex-direction: column; flex-grow: 1; min-height: 0;">
+                
+                <!-- NOVO: Título com o Botão ( ? ) lado a lado -->
+                <div style="display: flex; align-items: center; gap: 12px; flex-shrink: 0; margin-bottom: 0;">
+                    <h1 id="title-damage-chart" style="margin: 0; color: var(--orange-accent);">Limites de Dano por Alcance</h1>
+                    <button id="btn-dmg-info-icon" class="hide-on-export" onclick="document.getElementById('dmg-info-modal').classList.remove('hidden-section')" style="background: none; border: 1px solid var(--text-dim); color: var(--text-dim); border-radius: 50%; width: 26px; height: 26px; display: flex; justify-content: center; align-items: center; cursor: pointer; font-weight: bold; font-size: 0.9rem; transition: all 0.2s;" onmouseover="this.style.color='var(--orange-accent)'; this.style.borderColor='var(--orange-accent)'" onmouseout="this.style.color='var(--text-dim)'; this.style.borderColor='var(--text-dim)'">?</button>
+                </div>
+                
+                <!-- Painel de Controles (Estação de Trabalho) -->
+                <div class="panel controls" style="padding-bottom: 15px; flex-shrink: 0; margin-top: 15px;">
+                    <div style="display: flex; gap: 15px; align-items: flex-end; flex-wrap: wrap;">
+                        
+                        <!-- Filtros em Cascata -->
+                        <div style="display: flex; flex-direction: column; gap: 5px;">
+                            <label id="lbl-dmg-class" for="dmg-cb-class" style="font-weight: bold; color: var(--text-main);">Classe:</label>
+                            <select id="dmg-cb-class" onchange="dmgChangeClass(this.value)" style="width: auto; min-width: 180px; max-width: 250px; height: 38px; background-color: var(--button-back); color: var(--text-main); border: 1px solid var(--button-hover); padding: 0 10px; border-radius: 4px; outline: none;"></select>
+                        </div>
+                        
+                        <div style="display: flex; flex-direction: column; gap: 5px;">
+                            <label id="lbl-dmg-weapon" for="dmg-cb-weapon" style="font-weight: bold; color: var(--text-main);">Arma:</label>
+                            <select id="dmg-cb-weapon" onchange="dmgChangeWeapon(this.value)" style="width: auto; min-width: 220px; max-width: 320px; height: 38px; background-color: var(--button-back); color: var(--text-main); border: 1px solid var(--button-hover); padding: 0 10px; border-radius: 4px; outline: none;" disabled></select>
+                        </div>
+                        
+                        <div style="display: flex; flex-direction: column; gap: 5px;">
+                            <label id="lbl-dmg-ammo" for="dmg-cb-ammo" style="font-weight: bold; color: var(--text-main);">Munição:</label>
+                            <select id="dmg-cb-ammo" onchange="dmgValidateAddButton()" style="width: auto; min-width: 220px; max-width: 320px; height: 38px; background-color: var(--button-back); color: var(--text-main); border: 1px solid var(--button-hover); padding: 0 10px; border-radius: 4px; outline: none;" disabled></select>
+                        </div>
+                        
+                        <!-- Botões de Ação -->
+                        <button id="btn-dmg-add" onclick="dmgAddChartCombo()" style="height: 38px; padding: 0 20px; background-color: var(--button-back); color: var(--text-dim); cursor: not-allowed; border: 1px solid var(--button-hover); border-radius: 4px; font-weight: bold; transition: all 0.2s;" disabled>Adicionar Gráfico e Tabela</button>
+                        
+                        <!-- NOVO BOTÃO LIMPAR: Design Destrutivo e Interativo -->
+                        <button id="btn-dmg-clear" onclick="dmgClearAll()" style="height: 38px; padding: 0 20px; background-color: transparent; color: var(--fail); border: 1px solid var(--fail); border-radius: 4px; font-weight: bold; cursor: pointer; transition: all 0.2s;" onmouseover="this.style.backgroundColor='rgba(244, 67, 54, 0.1)'" onmouseout="this.style.backgroundColor='transparent'">Limpar Gráfico e Tabela</button>
+                        
+                        <!-- CONTADOR E BOTÃO EXPORTAR (Agrupados à direita) -->
+                        <div style="margin-left: auto; display: flex; align-items: center; gap: 15px;">
+                            <span id="lbl-dmg-count" style="color: var(--text-dim); font-weight: bold;">5 Armas restantes</span>
+                            <button id="btn-dmg-export" class="export-btn" onclick="exportarComoImagem('damage-section', 'Limites_Dano_ABIDB')" style="height: 38px; margin: 0; padding: 0 15px;" title="Salvar o gráfico e tabela como imagem (.png)">📷 Exportar Resultados</button>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- O Gráfico (A Tela de Radar) -->
+                <div class="panel grid-area" style="flex-grow: 1; display: flex; align-items: center; justify-content: center; min-height: 400px; padding: 5px 15px; position: relative;">
+                    
+                    <canvas id="damageChartCanvas"></canvas>
+                    
+                    <!-- INSTRUÇÃO DOS CONTROLES (HUD FLUTUANTE ENCSTADO NA BORDA) -->
+                    <div id="dmg-chart-instruction" style="position: absolute; bottom: 10px; right: 15px; background: rgba(0, 0, 0, 0.6); border: 1px solid rgba(255, 255, 255, 0.15); border-radius: 6px; padding: 6px 12px; color: var(--text-dim); font-size: 14px; font-weight: bold; font-style: italic; pointer-events: none; z-index: 10;">
+                        <!-- O texto será injetado via JS -->
+                    </div>
+
+                </div>
+                
+                <!-- A Tabela de Dados (DataGridView) -->
+                <!-- margin-top: 0 remove o distanciamento extra. margin-bottom: -20px empurra a tabela pro limite do rodapé -->
+                <div class="grid-area dmg-table-container" style="margin-top: 0; margin-bottom: -20px; padding: 0;">
+                    <table id="dmg-data-table" style="width: 100%; border-collapse: collapse;">
+                        <thead id="dmg-table-head" style="position: sticky; top: 0; background-color: var(--button-back); z-index: 2;">
+                            <!-- Preenchido via JS -->
+                        </thead>
+                        <tbody id="dmg-table-body">
+                            <!-- Preenchido via JS -->
+                        </tbody>
+                    </table>
+                </div>
+                
+            </section>
+            
+            <!-- ==================================================================================== -->
+            <!-- SEÇÃO 4: COMPATIBILIDADE DE MÁSCARAS E CAPACETES                                     -->
+            <!-- ==================================================================================== -->
+            <section id="mask-comp-section" class="hidden-section" style="display: flex; flex-direction: column; flex-grow: 1; min-height: 0;">
+                
+                <!-- Cabeçalho (Título e Botão de Exportar) -->
+                <div class="panel controls" style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px; flex-shrink: 0; margin-top: 15px;">
+                    <h1 id="title-mask-comp" style="color: var(--orange-accent); margin: 0; font-size: 2rem;">Compatibilidade: Máscaras x Capacetes</h1>
+                    <button id="btn-mask-export" class="export-btn" onclick="exportarComoImagem('mask-comp-section', 'Compatibilidade_Mascaras')" title="Salvar a tabela de compatibilidade como imagem (.png)">📷 Exportar Resultados</button>
+                </div>
+
+                <!-- NOVO DESIGN: Container de Cards Modernos -->
+                <div class="panel grid-area" style="padding: 20px; flex-grow: 1; overflow-y: auto; min-height: 0; border: 1px solid var(--button-back); display: flex; flex-direction: column;">
+                    
+                    <!-- GRID DOS CARTÕES -->
+                    <div id="mask-comp-container" class="mask-cards-grid">
+                        <!-- Cards gerados via JS -->
+                    </div>
+
+                    <!-- BOTÕES DE FILTRO NO RODAPÉ INTERNO -->
+                    <!-- margin-top: auto empurra os botões para o chão do painel -->
+                    <!-- padding-top cria uma margem segura entre os cartões e os botões -->
+                    <div class="hide-on-export" style="display: flex; justify-content: flex-end; gap: 15px; margin-top: auto; padding-top: 25px; flex-shrink: 0;">
+                        
+                        <!-- Botão de Reset (Inicia Oculto) -->
+                        <button id="btn-mask-reset-quick" onclick="quickResetMaskFilters()" onmouseover="this.style.backgroundColor='rgba(244, 67, 54, 0.1)'" onmouseout="this.style.backgroundColor='var(--button-back)'" style="display: none; padding: 10px 20px; font-size: 1rem; font-weight: bold; background-color: var(--button-back); color: var(--fail); border: 1px solid var(--fail); border-radius: 4px; cursor: pointer; transition: all 0.2s;">
+                            Remover Filtros
+                        </button>
+                        
+                        <!-- Botão de Filtros Original -->
+                        <button id="btn-mask-filter" onclick="openMaskFilterModal()" style="padding: 10px 25px; font-size: 1rem; font-weight: bold; background-color: var(--button-back); color: var(--orange-accent); border: 1px solid var(--orange-accent); border-radius: 4px; cursor: pointer; transition: all 0.2s;">
+                            Filtros de Classe
+                        </button>
+                    </div>
+
+                </div>
+
+            </section>
+            
+            <!-- ==================================================================================== -->
+            <!-- SEÇÃO 8: SIMULADOR DE COMBATE (ARMA + MUNIÇÃO VS COLETE)                             -->
+            <!-- ==================================================================================== -->
+            <section id="simulator-section" class="hidden-section" style="display: flex; flex-direction: column; flex-grow: 1; min-height: 0;">
+                
+                <!-- ======================================================= -->
+                <!-- TÍTULO COM BOTÃO DE AJUDA LADO A LADO + BOTÃO EXPORTAR  -->
+                <!-- ======================================================= -->
+                <div class="panel controls" style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px; flex-shrink: 0; margin-top: 15px;">
+                    <!-- Grupo da Esquerda (Título + Ajuda) -->
+                    <div style="display: flex; align-items: center; gap: 12px;">
+                        <h1 id="title-simulator" style="color: var(--orange-accent); margin: 0; font-size: 2rem;">Simulador Balístico: Arma vs Proteção</h1>
+                        <button id="btn-sim-info-icon" class="hide-on-export" onclick="document.getElementById('sim-info-modal').classList.remove('hidden-section')" style="background: none; border: 1px solid var(--text-dim); color: var(--text-dim); border-radius: 50%; width: 26px; height: 26px; display: flex; justify-content: center; align-items: center; cursor: pointer; font-weight: bold; font-size: 0.9rem; transition: all 0.2s;" onmouseover="this.style.color='var(--orange-accent)'; this.style.borderColor='var(--orange-accent)'" onmouseout="this.style.color='var(--text-dim)'; this.style.borderColor='var(--text-dim)'">?</button>
+                    </div>
+                    <!-- Grupo da Direita (Botão Exportar) -->
+                    <button id="btn-sim-export" class="export-btn" onclick="exportarComoImagem('simulator-section', 'Simulador_Combate')" title="Salvar o resultado como imagem (.png)">📷 Exportar Resultados</button>
+                </div>
+
+                <!-- PAINEL DE ENTRADA DE DADOS (OS 4 DROPDOWNS) -->
+                <div class="panel controls" style="padding: 20px; flex-shrink: 0; display: flex; gap: 20px; flex-wrap: wrap; background-color: rgba(0, 0, 0, 0.2); border: 1px solid rgba(255,255,255,0.05);">
+                    
+                    <!-- Bloco Ataque (Arma e Munição) -->
+                    <div style="flex: 1; min-width: 300px; display: flex; flex-direction: column; gap: 15px; border-right: 1px solid rgba(255,255,255,0.1); padding-right: 20px;">
+                        <h3 id="lbl-sim-atk-title" style="color: var(--success); margin: 0; text-transform: uppercase; font-size: 1.1rem; letter-spacing: 1px;">Ataque (Arma e Munição)</h3>
+                        
+                        <div style="display: flex; flex-direction: column; gap: 5px;">
+                            <label id="lbl-sim-class" for="sim-cb-class" style="font-weight: bold; color: var(--text-dim);">Classe da Arma:</label>
+                            <select id="sim-cb-class" onchange="simChangeClass(this.value)" style="height: 40px; background-color: var(--button-back); color: var(--text-main); border: 1px solid var(--button-hover); padding: 0 10px; border-radius: 4px; outline: none; cursor: pointer;"></select>
+                        </div>
+                        
+                        <div style="display: flex; flex-direction: column; gap: 5px;">
+                            <label id="lbl-sim-weapon" for="sim-cb-weapon" style="font-weight: bold; color: var(--text-dim);">Arma (Afeta o Dano Base):</label>
+                            <select id="sim-cb-weapon" onchange="simChangeWeapon(this.value)" style="height: 40px; background-color: var(--button-back); color: var(--text-main); border: 1px solid var(--button-hover); padding: 0 10px; border-radius: 4px; outline: none; opacity: 0.5; cursor: not-allowed; transition: all 0.3s ease;" disabled></select>
+                        </div>
+
+                        <div style="display: flex; flex-direction: column; gap: 5px;">
+                            <label id="lbl-sim-ammo" for="sim-cb-ammo" style="font-weight: bold; color: var(--text-dim);">Munição (Projétil):</label>
+                            <select id="sim-cb-ammo" onchange="simRunCombatCalculation()" style="height: 40px; background-color: var(--button-back); color: var(--text-main); border: 1px solid var(--button-hover); padding: 0 10px; border-radius: 4px; outline: none; opacity: 0.5; cursor: not-allowed; transition: all 0.3s ease;" disabled></select>
+                        </div>
+                    </div>
+
+                    <!-- Bloco Defesa (Armadura) -->
+                    <div style="flex: 1; min-width: 300px; display: flex; flex-direction: column; gap: 15px;">
+                        <h3 id="lbl-sim-def-title" style="color: var(--fail); margin: 0; text-transform: uppercase; font-size: 1.1rem; letter-spacing: 1px;">Defesa (Armadura)</h3>
+                        
+                        <!-- NOVO FILTRO MESTRE DE CATEGORIA -->
+                        <div style="display: flex; flex-direction: column; gap: 5px;">
+                            <label id="lbl-sim-armor-type" for="sim-cb-armor-type" style="font-weight: bold; color: var(--text-dim);">Categoria de Proteção:</label>
+                            <select id="sim-cb-armor-type" onchange="simArmorTypeSelected(this.value)" style="height: 40px; background-color: var(--button-back); color: var(--text-main); border: 1px solid var(--button-hover); padding: 0 10px; border-radius: 4px; outline: none; cursor: pointer;">
+                                <option value="" disabled selected hidden>Escolha a Categoria...</option>
+                                <option value="Helmets">Capacetes</option>
+                                <option value="Masks">Máscaras</option>
+                                <option value="BodyArmor">Coletes Balísticos</option>
+                                <option value="ArmoredRigs">Coletes Blindados</option>
+                                <option value="AllArmors">Coletes Balísticos e Coletes Blindados</option>
+                            </select>
+                        </div>
+
+                        <div style="display: flex; flex-direction: column; gap: 5px;">
+                            <label id="lbl-sim-armor" for="sim-cb-armor" style="font-weight: bold; color: var(--text-dim);">Item de Proteção:</label>
+                            <select id="sim-cb-armor" onchange="simArmorSelected()" style="height: 40px; background-color: var(--button-back); color: var(--text-main); border: 1px solid var(--button-hover); padding: 0 10px; border-radius: 4px; outline: none; opacity: 0.5; cursor: not-allowed; transition: all 0.3s ease;" disabled></select>
+                        </div>
+
+                        <div id="sim-durability-control" style="display: none; flex-direction: column; gap: 8px; margin-top: 5px; background: rgba(244, 67, 54, 0.1); padding: 15px; border-radius: 6px; border: 1px dashed rgba(244, 67, 54, 0.3);">
+                            <div style="display: flex; justify-content: space-between; align-items: center;">
+                                <label id="lbl-sim-durability-state" style="font-weight: bold; color: var(--text-dim); font-size: 0.85rem; text-transform: uppercase;">Estado da Blindagem:</label>
+                                <span style="color: var(--fail); font-weight: 900; font-size: 1.2rem;" id="sim-lbl-current-dur">50 / 50 (100%)</span>
+                            </div>
+                            <input type="range" id="sim-range-dur" min="0" max="100" value="100" step="1" oninput="document.getElementById('sim-lbl-current-dur').textContent = this.value + ' / ' + this.max + ' (' + Math.round((this.value / this.max) * 100) + '%)'; simRunCombatCalculation();" style="width: 100%; cursor: pointer; accent-color: var(--fail);">
+                        </div>
+                        
+                        <div id="sim-armor-stats-box" style="display: none; background: rgba(0,0,0,0.3); padding: 15px; border-radius: 6px; border: 1px solid rgba(255,255,255,0.05); margin-top: auto;">
+                            <div style="display: flex; justify-content: space-between; margin-bottom: 8px;">
+                                <span style="color: var(--text-dim);" id="lbl-sim-armor-class">Classe:</span>
+                                <span id="sim-val-armor-class" style="font-weight: bold; color: var(--orange-accent);">-</span>
+                            </div>
+                            <div style="display: flex; justify-content: space-between;">
+                                <span style="color: var(--text-dim);" id="lbl-sim-armor-dur">Durabilidade Máxima:</span>
+                                <span id="sim-val-armor-dur" style="font-weight: bold; color: var(--text-main);">-</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- ========================================================================= -->
+                <!-- PAINEL DE RESULTADOS: RELATÓRIO DE BALÍSTICA (NOVO DESIGN)                -->
+                <!-- ========================================================================= -->
+                <div class="panel grid-area" id="sim-result-panel" style="margin-top: 15px; padding: 25px; display: flex; flex-direction: column; align-items: center; justify-content: flex-start; flex-grow: 1; border: 1px solid var(--button-hover); opacity: 0.5; transition: all 0.3s ease;">
+                    
+                    <div id="sim-placeholder-text" style="color: var(--text-dim); font-size: 1.2rem; font-style: italic; text-align: center; margin: auto;">
+                        Selecione a Arma, Munição e Colete para processar o Relatório de Balística.
+                    </div>
+
+                    <div id="sim-result-container" style="display: none; width: fit-content; max-width: 100%; flex-direction: column; gap: 20px; margin: 0 auto; flex-grow: 1;">
+                        
+                        <!-- Cabeçalho do Relatório -->
+                        <div style="background: rgba(0,0,0,0.4); border: 1px solid rgba(255,255,255,0.05); border-radius: 8px; padding: 15px 20px; text-align: center; width: 100%; box-sizing: border-box;">
+                            <h2 id="lbl-sim-report-title" style="color: var(--text-main); margin: 0 0 15px 0; font-size: 1.3rem; text-transform: uppercase; letter-spacing: 2px;">Análise de Penetração e Trauma</h2>
+                            <div style="display: flex; justify-content: center; gap: 20px; font-size: 1.1rem;">
+                                <div style="width: var(--sim-hdr-wep); min-width: max-content; display: flex; flex-direction: column; justify-content: flex-start; text-align: center;"><span id="lbl-sim-rep-weapon-title" style="color: var(--success); font-size: 0.8em; text-transform: uppercase;">Arma</span><strong style="color: var(--text-main); word-break: break-word;" id="sim-rep-weapon">-</strong></div>
+                                <div style="color: var(--button-hover); display: flex; align-items: center;">|</div>
+                                <div style="width: var(--sim-hdr-ammo); min-width: max-content; display: flex; flex-direction: column; justify-content: flex-start; text-align: center;"><span id="lbl-sim-rep-ammo-title" style="color: var(--success); font-size: 0.8em; text-transform: uppercase;">Munição</span><strong style="color: var(--text-main); word-break: break-word;" id="sim-rep-ammo">-</strong></div>
+                                <div style="color: var(--button-hover); display: flex; align-items: center;">|</div>
+                                <div style="width: var(--sim-hdr-armor); min-width: max-content; display: flex; flex-direction: column; justify-content: flex-start; text-align: center;"><span id="lbl-sim-rep-armor-title" style="color: var(--fail); font-size: 0.8em; text-transform: uppercase;">Colete Alvo</span><strong style="color: var(--text-main); word-break: break-word;" id="sim-rep-armor">-</strong></div>
+                            </div>
+                        </div>
+
+                        <!-- Dados Base do Equipamento (Status) -->
+                        <div style="display: flex; gap: 15px; flex-wrap: wrap; justify-content: center;">
+                            <div style="width: var(--sim-box-proj); max-width: 100%; box-sizing: border-box; background: rgba(0,0,0,0.2); border-radius: 8px; padding: 15px; border-left: 4px solid var(--success);">
+                                <h4 id="lbl-sim-proj-status" style="margin: 0 0 12px 0; color: var(--success); text-transform: uppercase; font-size: 0.9rem;">Status do Projétil</h4>
+                                <div style="display: flex; justify-content: space-between; margin-bottom: 6px; font-size: 0.9rem;"><span id="lbl-sim-pierce-level" style="color: var(--text-dim); white-space: nowrap;">Nível de Perfuração:</span><strong id="sim-rep-pierce" style="color: var(--text-main); text-align: right; white-space: nowrap;">-</strong></div>
+                                <div style="display: flex; justify-content: space-between; margin-bottom: 6px; font-size: 0.9rem;"><span id="lbl-sim-exact-pen" style="color: var(--text-dim); white-space: nowrap;">Penetração:</span><strong id="sim-rep-penstat" style="color: var(--text-main); text-align: right; white-space: nowrap;">-</strong></div>
+                                <div style="display: flex; justify-content: space-between; margin-bottom: 6px; font-size: 0.9rem;"><span id="lbl-sim-armor-dmg" style="color: var(--text-dim); white-space: nowrap;">Dano de Blindagem:</span><strong id="sim-rep-armordmg" style="color: var(--text-main); text-align: right; white-space: nowrap;">-</strong></div>
+                                <div style="display: flex; justify-content: space-between; margin-bottom: 6px; font-size: 0.9rem;"><span id="lbl-sim-base-dmg" style="color: var(--text-dim); white-space: nowrap;">Dano Base (Arma+Munição):</span><strong id="sim-rep-basedmg" style="color: var(--text-main); text-align: right; white-space: nowrap;">-</strong></div>
+                                <div style="display: flex; justify-content: space-between; font-size: 0.9rem; padding-top: 6px; border-top: 1px solid rgba(255,255,255,0.05);"><span id="lbl-sim-blunt-dmg" style="color: var(--text-dim); white-space: nowrap;">Dano Ferimento Contuso:</span><strong id="sim-rep-bluntdmg" style="color: var(--orange-accent); text-align: right; white-space: nowrap;">-</strong></div>
+                            </div>
+                            
+                            <div style="width: var(--sim-box-armor); max-width: 100%; box-sizing: border-box; background: rgba(0,0,0,0.2); border-radius: 8px; padding: 15px; border-left: 4px solid var(--fail);">
+                                <h4 id="lbl-sim-armor-status" style="margin: 0 0 12px 0; color: var(--fail); text-transform: uppercase; font-size: 0.9rem;">Status da Blindagem</h4>
+                                <div style="display: flex; justify-content: space-between; margin-bottom: 6px; font-size: 0.9rem;"><span id="lbl-sim-armor-class-label" style="color: var(--text-dim); white-space: nowrap;">Classe da Blindagem:</span><strong id="sim-rep-armorclass" style="color: var(--text-main); text-align: right; white-space: nowrap;">-</strong></div>
+                                
+                                <div style="display: flex; justify-content: space-between; margin-bottom: 6px; font-size: 0.9rem;"><span id="lbl-sim-armor-material-label" style="color: var(--text-dim); white-space: nowrap;">Material:</span><strong id="sim-rep-armormaterial" style="color: var(--text-main); text-align: right; white-space: nowrap;">-</strong></div>
+                                
+                                <div style="display: flex; justify-content: space-between; font-size: 0.9rem;"><span id="lbl-sim-armor-max-dur" style="color: var(--text-dim); white-space: nowrap;">Durabilidade Máxima:</span><strong id="sim-rep-armordur" style="color: var(--text-main); text-align: right; white-space: nowrap;">-</strong></div>
+                                
+                                <div id="sim-rep-current-dur-box" style="display: flex; visibility: hidden; justify-content: space-between; font-size: 0.9rem; margin-top: 6px;">
+                                    <span id="lbl-sim-armor-cur-dur" style="color: var(--text-dim); white-space: nowrap;">Durabilidade Atual:</span>
+                                    <strong id="sim-rep-current-dur" style="color: var(--fail); text-align: right; white-space: nowrap;">-</strong>
+                                </div>
+                                
+                                <div style="display: flex; justify-content: space-between; align-items: flex-start; gap: 15px; font-size: 0.9rem; padding-top: 6px; margin-top: 6px; border-top: 1px solid rgba(255,255,255,0.05);">
+                                    <span id="lbl-sim-armor-areas" style="color: var(--text-dim); white-space: nowrap;">Áreas Protegidas:</span>
+                                    <strong id="sim-rep-armorareas" style="color: var(--text-main); text-align: right; font-size: 0.85rem; line-height: 1.4;">-</strong>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Selo de Penetração + Chance -->
+                        <div style="display: flex; flex-grow: 1; width: 100%; align-items: center; justify-content: center; min-height: 100px; padding: 10px 0;">
+                            <div id="sim-status-box" style="display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 20px 40px; width: 100%; max-width: 500px; border: 2px solid #4CAF50; border-radius: 12px; background-color: rgba(76, 175, 80, 0.1); transition: all 0.3s ease;">
+                                <div id="sim-res-val-pen" style="color: #4CAF50; font-size: 5rem; font-weight: 900; line-height: 1;">-</div>
+                                <div id="sim-status-label" style="color: #4CAF50; font-size: 1.1rem; text-transform: uppercase; font-weight: bold; margin-top: 10px; opacity: 0.8; letter-spacing: 1px;">Chance de Penetração</div>
+                            </div>
+                        </div>
+
+                        <!-- Painéis Retangulares Empilhados -->
+                        <div style="display: flex; flex-direction: column; gap: 12px; width: 100%;">
+                            
+                            <!-- Dano Inicial -->
+                            <div style="background: rgba(0,0,0,0.3); border-radius: 8px; border: 1px solid rgba(255,255,255,0.05); overflow: hidden; display: flex; align-items: stretch; flex-wrap: wrap;">
+                                <div style="background: rgba(255,255,255,0.03); padding: 20px; width: 200px; text-align: center; border-right: 1px solid rgba(255,255,255,0.05); display: flex; flex-direction: column; justify-content: center; flex-grow: 1;">
+                                    <strong id="lbl-sim-dmg-close-title" style="color: var(--orange-accent); text-transform: uppercase; letter-spacing: 1px; font-size: 1.1rem;">Dano Inicial</strong>
+                                    <span id="sim-rep-dist-close" style="font-size: 0.85em; color: var(--text-dim); margin-top: 5px;">Alcance: -</span>
+                                </div>
+                                
+                                <div style="flex-grow: 99; padding: 15px 20px; display: flex; justify-content: space-around; text-align: center; gap: 20px;">
+                                    <div>
+                                        <div id="lbl-sim-res-pen-close" style="color: var(--text-dim); font-size: 0.85rem; font-weight: bold; text-transform: uppercase; margin-bottom: 5px; white-space: nowrap;">Dano de Penetração</div>
+                                        <div id="sim-res-val-dmg" style="font-size: 2.4rem; font-weight: 900; color: var(--text-main); line-height: 1;">-</div>
+                                    </div>
+                                    <div>
+                                        <div id="lbl-sim-res-armor-close" style="color: var(--text-dim); font-size: 0.85rem; font-weight: bold; text-transform: uppercase; margin-bottom: 5px; white-space: nowrap;">Tiros para Quebrar <span style="text-transform: none;">(Blindagem)</span></div>
+                                        <div id="sim-res-val-avg" style="font-size: 2.4rem; font-weight: 900; color: var(--text-main); line-height: 1;">-</div>
+                                    </div>
+                                    <div>
+                                        <div style="color: var(--text-dim); font-size: 0.85rem; font-weight: bold; text-transform: uppercase; margin-bottom: 5px; white-space: nowrap;"><span id="lbl-sim-res-kill-close">Extremos para Matar</span> <span id="sim-lbl-ttk-region-close" style="text-transform: none;">(Tórax)</span></div>
+                                        <div id="sim-res-val-ttk" style="font-size: 2.4rem; font-weight: 900; color: var(--text-main); line-height: 1;">-</div>
+                                    </div>
+                                    <div>
+                                        <div style="color: var(--text-dim); font-size: 0.85rem; font-weight: bold; text-transform: uppercase; margin-bottom: 5px; white-space: nowrap;"><span id="lbl-sim-res-avgkill-close">Média para Matar</span> <span id="sim-lbl-avgttk-region-close" style="text-transform: none;">(Tórax)</span></div>
+                                        <div id="sim-res-val-avgttk" style="font-size: 2.4rem; font-weight: 900; color: var(--text-main); line-height: 1;">-</div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Dano Final -->
+                            <div id="sim-panel-far" style="background: rgba(0,0,0,0.3); border-radius: 8px; border: 1px solid rgba(255,255,255,0.05); overflow: hidden; display: flex; align-items: stretch; transition: all 0.3s ease; flex-wrap: wrap;">
+                                <div style="background: rgba(255,255,255,0.03); padding: 20px; width: 200px; text-align: center; border-right: 1px solid rgba(255,255,255,0.05); display: flex; flex-direction: column; justify-content: center; flex-grow: 1;">
+                                    <strong id="lbl-sim-dmg-far-title" style="color: var(--orange-accent); text-transform: uppercase; letter-spacing: 1px; font-size: 1.1rem;">Dano Final</strong>
+                                    <span id="sim-rep-dist-far" style="font-size: 0.85em; color: var(--text-dim); margin-top: 5px;">Alcance Final: -</span>
+                                </div>
+                                
+                                <div style="flex-grow: 99; padding: 15px 20px; display: flex; justify-content: space-around; text-align: center; gap: 20px;">
+                                    <div>
+                                        <div id="lbl-sim-res-pen-far" style="color: var(--text-dim); font-size: 0.85rem; font-weight: bold; text-transform: uppercase; margin-bottom: 5px; white-space: nowrap;">Dano de Penetração</div>
+                                        <div id="sim-res-val-dmg-far" style="font-size: 2.4rem; font-weight: 900; color: var(--text-main); line-height: 1;">-</div>
+                                    </div>
+                                    <div>
+                                        <div id="lbl-sim-res-armor-far" style="color: var(--text-dim); font-size: 0.85rem; font-weight: bold; text-transform: uppercase; margin-bottom: 5px; white-space: nowrap;">Tiros para Quebrar <span style="text-transform: none;">(Blindagem)</span></div>
+                                        <div id="sim-res-val-avg-far" style="font-size: 2.4rem; font-weight: 900; color: var(--text-main); line-height: 1;">-</div>
+                                    </div>
+                                    <div>
+                                        <div style="color: var(--text-dim); font-size: 0.85rem; font-weight: bold; text-transform: uppercase; margin-bottom: 5px; white-space: nowrap;"><span id="lbl-sim-res-kill-far">Extremos para Matar</span> <span id="sim-lbl-ttk-region-far" style="text-transform: none;">(Tórax)</span></div>
+                                        <div id="sim-res-val-ttk-far" style="font-size: 2.4rem; font-weight: 900; color: var(--text-main); line-height: 1;">-</div>
+                                    </div>
+                                    <div>
+                                        <div style="color: var(--text-dim); font-size: 0.85rem; font-weight: bold; text-transform: uppercase; margin-bottom: 5px; white-space: nowrap;"><span id="lbl-sim-res-avgkill-far">Média para Matar</span> <span id="sim-lbl-avgttk-region-far" style="text-transform: none;">(Tórax)</span></div>
+                                        <div id="sim-res-val-avgttk-far" style="font-size: 2.4rem; font-weight: 900; color: var(--text-main); line-height: 1;">-</div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- AVISO DE MÚLTIPLOS PROJÉTEIS (PELLETS) -->
+                            <div id="sim-warning-pellets" style="display: none; background: rgba(255, 152, 0, 0.1); border: 1px dashed var(--orange-accent); border-radius: 8px; padding: 10px; text-align: center; color: var(--text-main); font-size: 0.9rem;">
+                                <span id="lbl-sim-warn-imp" style="color: var(--orange-accent); font-weight: bold;">Importante:</span> <span id="lbl-sim-warn-txt">O cálculo considera que você acertou todos os chumbos ou flechetes de cada disparo.</span>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+
+            </section>
+            
+            <!-- ==================================================================================== -->
+            <!-- SEÇÃO 5: ARTIGOS E GUIAS (NOVO DESIGN EM CAMADAS)                                    -->
+            <!-- ==================================================================================== -->
+            <section id="articles-section" class="hidden-section" style="display: flex; flex-direction: column; flex-grow: 1; min-height: 0;">
+                
+                <!-- CABEÇALHO: Título e Botão de Voltar (Lado a Lado) -->
+                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; flex-shrink: 0; margin-top: 15px;">
+                    <h1 id="title-articles" style="color: var(--orange-accent); margin: 0;">Artigos e Guias</h1>
+                    
+                    <!-- Botão Voltar (Fica escondido até o cara abrir um artigo) -->
+                    <button id="btn-articles-back" class="hidden-section" onclick="closeArticleView()" style="background-color: var(--button-back); color: var(--text-main); border: 1px solid var(--text-dim); padding: 8px 20px; border-radius: 4px; font-weight: bold; cursor: pointer; transition: background-color 0.2s; white-space: nowrap;" onmouseover="this.style.backgroundColor='var(--button-hover)'" onmouseout="this.style.backgroundColor='var(--button-back)'">
+                        Voltar à Lista
+                    </button>
+                </div>
+                
+                <!-- CAMADA 1: A Vitrine de Artigos (Grid) -->
+                <div id="articles-menu-view" class="panel" style="flex-grow: 1; overflow-y: auto; padding: 30px;">
+                    <div id="articles-menu-container" style="display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 20px;">
+                        <!-- Os botões gigantes dos artigos vão "nascer" aqui -->
+                    </div>
+                </div>
+                
+                <!-- CAMADA 2: A Folha de Leitura (CORRIGIDA: Fundo herdado do painel) -->
+                <div id="articles-content-view" class="panel hidden-section" style="flex-grow: 1; overflow-y: auto; padding: 40px; line-height: 1.6; font-size: 1.35rem;">
+                    <div id="article-content-area">
+                        <!-- O texto do Bloco de Notas entra aqui -->
+                    </div>
+                </div>
+                
+            </section>
+
+            <!-- ==================================================================================== -->
+            <!-- SEÇÃO 6: CHANGELOG (HISTÓRICO DE ATUALIZAÇÕES)                                       -->
+            <!-- ==================================================================================== -->
+            <section id="changelog-section" class="hidden-section" style="display: flex; flex-direction: column; flex-grow: 1; min-height: 0;">
+                <h1 id="title-changelog" style="color: var(--orange-accent); margin-bottom: 20px; flex-shrink: 0; margin-top: 15px;">Histórico de Atualizações</h1>
+                
+                <!-- Área de Leitura do Histórico (CORRIGIDA: Fundo herdado do painel) -->
+                <div class="panel" id="changelog-content-area" style="flex-grow: 1; overflow-y: auto; padding: 40px; line-height: 1.6; font-size: 1.35rem;">
+                    <div style="color: var(--text-dim); text-align: center; margin-top: 100px;">
+                        Carregando histórico de atualizações...
+                    </div>
+                </div>
+            </section>
+            
+            <!-- ==================================================================================== -->
+            <!-- SEÇÃO 7: SOBRE A FERRAMENTA (CARTA DO DESENVOLVEDOR)                                 -->
+            <!-- ==================================================================================== -->
+            <section id="about-section" class="hidden-section" style="display: flex; flex-direction: column; flex-grow: 1; min-height: 0;">
+                <h1 id="title-about" style="color: var(--orange-accent); margin-bottom: 20px; flex-shrink: 0; margin-top: 15px;">Sobre a Ferramenta</h1>
+                
+                <!-- Área de Leitura do Texto (Usa a mesma formatação elegante dos Artigos) -->
+                <div class="panel" id="about-content-area" style="flex-grow: 1; overflow-y: auto; padding: 40px; line-height: 1.6; font-size: 1.35rem;">
+                    <div style="color: var(--text-dim); text-align: center; margin-top: 100px;">
+                        Carregando informações do desenvolvedor... / Loading developer info...
+                    </div>
+                </div>
+            </section>
+
+        </main>
+    </div>
+
+    <!-- ========================================== -->
+    <!-- MODAL DE FILTRO CRUZADO (DA ABA DE BUSCA) -->
+    <!-- ========================================== -->
+    <div id="filter-modal-overlay" class="hidden-section">
+        <div id="filter-modal-content" class="panel">
+            <h2 id="filter-modal-title" style="color: var(--orange-accent); margin-bottom: 20px;">Ocultar Armas - Marque o que deseja OCULTAR</h2>
+            
+            <div id="filter-columns-container">
+                <!-- As colunas de Checkboxes serão geradas dinamicamente aqui -->
+            </div>
+
+            <div id="filter-modal-buttons">
+                <button id="btn-filter-reset" onclick="resetCurrentFilters()">Resetar Filtros</button>
+                <button id="btn-filter-confirm" onclick="confirmCurrentFilters()">Confirmar Filtros</button>
+                <button id="btn-filter-cancel" onclick="closeFilterModal()">Cancelar</button>
+            </div>
+        </div>
+    </div>
+    
+    <!-- ========================================== -->
+    <!-- NOVO MODAL: FILTRO DA TELA DE MÁSCARAS     -->
+    <!-- ========================================== -->
+    <div id="mask-filter-overlay" class="hidden-section" style="position: fixed; top: 0; left: 0; width: 100%; height: 100%; background-color: rgba(0, 0, 0, 0.85); display: flex; justify-content: center; align-items: center; z-index: 1100;">
+        <div class="panel" style="width: 90%; max-width: 400px; display: flex; flex-direction: column; gap: 20px; box-shadow: 0 10px 30px rgba(0,0,0,0.8);">
+            
+            <h2 id="lbl-mask-modal-title" style="color: var(--orange-accent); margin: 0;">Filtro Unificado de Classes</h2>
+            <p id="lbl-mask-modal-desc" style="color: var(--text-dim); margin-top: -10px;">Marque as classes que você deseja <b>OCULTAR</b> (afeta máscaras e capacetes simultaneamente).</p>
+            
+            <div class="filter-column" style="width: 100%;">
+                <div id="lbl-mask-modal-col" class="filter-column-title" style="background-color: var(--button-hover);">Classes Encontradas</div>
+                <div class="filter-column-content" id="unified-mask-filter-opts"></div>
+            </div>
+
+            <div style="display: flex; justify-content: center; gap: 20px; border-top: 1px solid var(--button-hover); padding-top: 20px;">
+                <button id="btn-mask-modal-clean" onclick="resetMaskFilters()" style="padding: 10px 20px; font-weight: bold; background: var(--button-back); color: var(--text-main); border: 1px solid var(--orange-accent); border-radius: 4px; cursor: pointer;">Limpar</button>
+                <button id="btn-mask-modal-apply" onclick="applyMaskFilters()" style="padding: 10px 30px; font-weight: bold; background: var(--orange-accent); color: var(--background); border: none; border-radius: 4px; cursor: pointer;">Aplicar</button>
+                <button id="btn-mask-modal-cancel" onclick="document.getElementById('mask-filter-overlay').classList.add('hidden-section')" style="padding: 10px 20px; font-weight: bold; background: var(--button-back); color: var(--text-main); border: 1px solid var(--button-hover); border-radius: 4px; cursor: pointer;">Cancelar</button>
+            </div>
+            
+        </div>
+    </div>
+    
+    <!-- ========================================== -->
+    <!-- NOVO MODAL: EXPLICAÇÃO DO GRÁFICO DE DANO  -->
+    <!-- ========================================== -->
+    <div id="dmg-info-modal" class="hidden-section" style="position: fixed; top: 0; left: 0; width: 100%; height: 100%; background-color: rgba(0, 0, 0, 0.85); display: flex; justify-content: center; align-items: center; z-index: 1200;">
+        <div class="panel" style="width: 90%; max-width: 650px; display: flex; flex-direction: column; gap: 15px; box-shadow: 0 10px 30px rgba(0,0,0,0.8); border: 1px solid var(--button-hover);">
+            
+            <h2 id="lbl-dmg-info-title" style="color: var(--orange-accent); margin: 0; border-bottom: 1px solid var(--button-hover); padding-bottom: 12px;">Metodologia dos Dados</h2>
+            
+            <div style="color: var(--text-main); font-size: 0.95rem; line-height: 1.6; display: flex; flex-direction: column; gap: 12px; margin-top: 5px;">
+                <p id="lbl-dmg-info-p1" style="margin: 0;"></p>
+                <p id="lbl-dmg-info-p2" style="margin: 0;"></p>
+                <p id="lbl-dmg-info-p3" style="margin: 0;"></p>
+                <p id="lbl-dmg-info-p4" style="margin: 0;"></p>
+            </div>
+
+            <div style="display: flex; justify-content: flex-end; border-top: 1px solid var(--button-hover); padding-top: 15px; margin-top: 10px;">
+                <button id="btn-dmg-info-close" onclick="document.getElementById('dmg-info-modal').classList.add('hidden-section')" style="padding: 10px 30px; font-weight: bold; background: var(--button-back); color: var(--text-main); border: 1px solid var(--button-hover); border-radius: 4px; cursor: pointer; transition: 0.2s;" onmouseover="this.style.borderColor='var(--orange-accent)'; this.style.color='var(--orange-accent)'" onmouseout="this.style.borderColor='var(--button-hover)'; this.style.color='var(--text-main)'">Fechar</button>
+            </div>
+            
+        </div>
+    </div>
+
+    <!-- ========================================== -->
+    <!-- NOVO MODAL: METODOLOGIA DO SIMULADOR       -->
+    <!-- ========================================== -->
+    <div id="sim-info-modal" class="hidden-section" style="position: fixed; top: 0; left: 0; width: 100%; height: 100%; background-color: rgba(0, 0, 0, 0.85); display: flex; justify-content: center; align-items: center; z-index: 99999;" onclick="if(event.target === this) this.classList.add('hidden-section')">
+        <div style="background: var(--background); border: 1px solid var(--orange-accent); border-radius: 8px; max-width: 600px; width: 90%; padding: 25px; box-shadow: 0px 10px 30px rgba(0,0,0,0.8); position: relative;">
+            <h2 id="sim-modal-title" style="color: var(--orange-accent); margin-top: 0; margin-bottom: 20px; text-transform: uppercase; letter-spacing: 1px; border-bottom: 1px solid rgba(255, 165, 0, 0.3); padding-bottom: 10px;">Metodologia do Simulador</h2>
+            <div style="color: var(--text-main); font-size: 15px; line-height: 1.6; display: flex; flex-direction: column; gap: 15px;">
+                <p id="sim-modal-p1" style="margin: 0; text-align: justify;"></p>
+                <p id="sim-modal-p2" style="margin: 0; text-align: justify;"></p>
+                <p id="sim-modal-p3" style="margin: 0; text-align: justify;"></p>
+            </div>
+            <div style="margin-top: 25px; text-align: right;">
+                <button id="btn-sim-modal-close" onclick="document.getElementById('sim-info-modal').classList.add('hidden-section')" style="background-color: var(--button-back); color: var(--text-main); border: 1px solid var(--button-hover); padding: 8px 20px; border-radius: 4px; font-weight: bold; cursor: pointer; transition: 0.2s;" onmouseover="this.style.borderColor='var(--orange-accent)'; this.style.color='var(--orange-accent)'" onmouseout="this.style.borderColor='var(--button-hover)'; this.style.color='var(--text-main)'">Fechar</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- CARREGAMENTO DOS SCRIPTS -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script> 
+    
+    <!-- 1. A BIBLIOTECA DE GRÁFICOS (Chart.js) -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script> 
+    
+    <!-- 2. MOTOR DE FÍSICA E ARRASTE (Hammer.js) - NECESSÁRIO PARA O PAN -->
+    <script src="https://cdn.jsdelivr.net/npm/hammerjs@2.0.8"></script>
+    
+    <!-- 3. O PLUGIN DE ZOOM PARA O MOUSE -->
+    <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-zoom@2.0.1/dist/chartjs-plugin-zoom.min.js"></script>
+    
+    <!-- 4. NOVO: MOTOR V8 DE MARKDOWN (Marked.js) -->
+    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+
+    <!-- 5. MOTOR DE FÓRMULAS MATEMÁTICAS (MathJax) -->
+    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    
+    <script src="dictionary.js"></script>
+    <script src="app.js"></script>
+</body>
+</html>

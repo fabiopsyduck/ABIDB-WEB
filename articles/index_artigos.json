@@ -1,0 +1,38 @@
+[
+    {
+        "id": "art_balistica",
+        "file": "guia_avancado_de_balistica.md",
+        "titlePt": "Guia Avançado de Balística",
+        "langOnly": "pt"
+    },
+    {
+        "id": "art_balistica2",
+        "file": "advanced_ballistics_guide.md",
+        "titleEn": "Advanced Ballistics Guide",
+        "langOnly": "en"
+    },
+	{
+        "id": "art_pierce_dmg1",
+        "file": "calculo_dano_perfurante.md",
+        "titlePt": "Cálculo do Sistema de Dano Perfurante",
+        "langOnly": "pt"
+    },
+	{
+        "id": "art_pierce_dmg2",
+        "file": "piercing_damage_calculation.md",
+        "titleEn": "Penetration Damage Calculation System",
+        "langOnly": "en"
+    },
+	{
+        "id": "art_calc_armor1",
+        "file": "calculo_blindagem.md",
+        "titlePt": "Cálculos de Blindagem: Desgaste, Dano Contuso e Penetração",
+        "langOnly": "pt"
+    },
+	{
+        "id": "art_calc_armor2",
+        "file": "shielding_calculation.md",
+        "titleEn": "Armor Calculations: Durability Loss, Blunt Damage, and Penetration",
+        "langOnly": "en"
+    }
+]
