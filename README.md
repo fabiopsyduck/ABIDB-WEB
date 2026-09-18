@@ -6,8 +6,7 @@
 
 **ABIDB Web** is a comprehensive, client-side interactive database and ballistic simulator for **Arena Breakout: Infinite**. Evolved from a former PowerShell script, this web application is designed to provide players with highly accurate, rigorously tested in-game data to help them make the best tactical decisions.
 
-🌐 **[Access the Live Demo here](https://YOUR-USERNAME.github.io/YOUR-REPOSITORY/)**  
-*(Remember to replace the link above with your actual GitHub Pages URL!)*
+🌐 **[Access the Live Demo here](https://fabiopsyduck.github.io/ABIDB-WEB/)**  
 
 ---
 
@@ -29,7 +28,7 @@ This is a pure web project, focused on performance and running 100% client-side:
 * Structured CSV data
 
 ## 📖 How to Use
-No installation is required. Simply access the [project page (GitHub Pages)](#) on your browser (PC or Mobile). All data is cached locally to ensure instant queries during your raids.
+No installation is required. Simply access the [project page (GitHub Pages)](https://fabiopsyduck.github.io/ABIDB-WEB/) on your browser (PC or Mobile). All data is cached locally to ensure instant queries during your raids.
 
 ## 💬 Community and Contact
 Found a calculation error, want to suggest a new feature, or just chat about the best Season 7 builds?
