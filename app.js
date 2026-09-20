@@ -3980,11 +3980,11 @@ function renderCompFiltersUI(liveMap, wepsData, ammoData) {
     const avisoDiv = document.createElement('div');
     avisoDiv.id = 'comp-ammo-warning-box';
     avisoDiv.style.width = '100%'; 
-    avisoDiv.style.marginTop = '20px';
-    avisoDiv.style.padding = '12px 15px';
+    avisoDiv.style.marginTop = '13px'; /* Matemática 64% */
+    avisoDiv.style.padding = '8px 10px'; /* Matemática 64% */
     avisoDiv.style.backgroundColor = 'rgba(255, 165, 0, 0.05)'; 
     avisoDiv.style.borderLeft = '4px solid var(--orange-accent)'; 
-    avisoDiv.style.fontSize = '0.9rem';
+    avisoDiv.style.fontSize = '0.58rem'; /* Matemática 64% */
     avisoDiv.style.color = 'var(--text-dim)';
     avisoDiv.style.lineHeight = '1.5';
 
@@ -4032,11 +4032,11 @@ function renderCompShowcaseUI(finalSurvivingWeapons, wepsData) {
                 btn.style.display = 'flex';
                 btn.style.justifyContent = 'space-between';
                 btn.style.alignItems = 'center';
-                btn.style.gap = '12px'; 
+                btn.style.gap = '8px'; /* Matemática 64% (Era 12px) */
                 btn.style.textAlign = 'left';
                 btn.style.height = 'auto'; 
-                btn.style.minHeight = '28px'; 
-                btn.style.padding = '4px 8px'; 
+                btn.style.minHeight = '18px'; /* Matemática 64% (Era 28px) */
+                btn.style.padding = '3px 5px'; /* Matemática 64% (Era 4px 8px) */
                 
                 btn.innerHTML = `
                     <span style="flex-grow: 1; word-break: break-word; line-height: 1.1; font-size: 0.95em;">${w.NomeItem}</span>
@@ -4396,7 +4396,7 @@ function generateComparisonTable() {
     // Alvo: O painel pai. Limpa tudo
     const container = document.getElementById('comp-results-container');
     container.innerHTML = ''; 
-    container.style.padding = '20px'; // Dá um respiro lateral para os cards
+    container.style.padding = '13px'; /* Matemática 64% */
 
     // --- NOVO MOTOR MATEMÁTICO: Quebra a string "48(60) | 34(63)" ---
     function parseDamageString(rawStr) {
@@ -4660,7 +4660,7 @@ function generateComparisonTable() {
                 <div class="res-ammo-title">${t.compResAmmoTitle}${cal}</div>
                 <div class="res-ammo-subtitle">${t.compResAmmoCompat}${calWeps}</div>
             </div>
-            <table class="res-ammo-table" id="ammo-table-${calIndex}" style="table-layout: fixed; width: 1400px; max-width: none;">
+            <table class="res-ammo-table" id="ammo-table-${calIndex}" style="table-layout: fixed; width: 895px; max-width: none;">
                 <thead>
                     <tr>
                         <th data-col="0" style="text-align: left; width: 20%;">${t.compResTableHeaders.itemName}</th>
@@ -5178,30 +5178,30 @@ function dmgUpdateChartEngine(rebuildChart = true) {
     // TRAVA DE MESA: Ignora o CSS externo e crava a estrutura
     if (tbody && tbody.parentElement) {
         tbody.parentElement.style.borderCollapse = 'separate';
-        tbody.parentElement.style.borderSpacing = '0 8px'; 
+        tbody.parentElement.style.borderSpacing = '0 5px'; /* Matemática 64% (Era 8px) */
     }
     
     // Atualiza Cabeçalho
     if (thead) {
         thead.innerHTML = `
             <tr>
-                <th style="text-align: left; width: 28%; background-color: var(--button-hover); color: var(--text-main); font-size: 14px; text-transform: uppercase; padding: 12px 12px; border-bottom: 2px solid var(--orange-accent); border-top-left-radius: 6px; letter-spacing: 1px;">${t.dmgTableHeaders.combo}</th>
+                <th style="text-align: left; width: 28%; background-color: var(--button-hover); color: var(--text-main); font-size: 0.6rem; text-transform: uppercase; padding: 4px 6px; border-bottom: 1px solid var(--orange-accent); border-top-left-radius: 4px; letter-spacing: 1px;">${t.dmgTableHeaders.combo}</th>
                 
                 <!-- NOVA COLUNA: CADÊNCIA -->
-                <th style="text-align: left; width: 11%; background-color: var(--button-hover); color: var(--text-main); font-size: 14px; text-transform: uppercase; padding: 12px 12px; border-bottom: 2px solid var(--orange-accent); letter-spacing: 1px;">
+                <th style="text-align: left; width: 11%; background-color: var(--button-hover); color: var(--text-main); font-size: 0.6rem; text-transform: uppercase; padding: 4px 6px; border-bottom: 1px solid var(--orange-accent); letter-spacing: 1px;">
                     <span title="${t.dmgDynamicTexts.tipRof}" style="cursor: help;">${t.dmgDynamicTexts.colRof}</span>
                 </th>
 
-                <th style="text-align: left; width: 17%; background-color: var(--button-hover); color: var(--text-main); font-size: 14px; text-transform: uppercase; padding: 12px 12px; border-bottom: 2px solid var(--orange-accent); letter-spacing: 1px;">
+                <th style="text-align: left; width: 17%; background-color: var(--button-hover); color: var(--text-main); font-size: 0.6rem; text-transform: uppercase; padding: 4px 6px; border-bottom: 1px solid var(--orange-accent); letter-spacing: 1px;">
                     <span title="${t.dmgDynamicTexts.tipHeaderDamage || ''}" style="cursor: help;">${t.dmgTableHeaders.damage}</span>
                 </th>
                 
-                <th style="text-align: left; width: 22%; background-color: var(--button-hover); color: var(--text-main); font-size: 14px; text-transform: uppercase; padding: 12px 12px; border-bottom: 2px solid var(--orange-accent); letter-spacing: 1px;">
+                <th style="text-align: left; width: 22%; background-color: var(--button-hover); color: var(--text-main); font-size: 0.6rem; text-transform: uppercase; padding: 4px 6px; border-bottom: 1px solid var(--orange-accent); letter-spacing: 1px;">
                     <span title="${t.dmgDynamicTexts.tipHeaderRange || ''}" style="cursor: help;">${t.dmgTableHeaders.range}</span>
                 </th>
                 
-                <th style="text-align: left; width: 17%; background-color: var(--button-hover); color: var(--text-main); font-size: 14px; text-transform: uppercase; padding: 12px 12px; border-bottom: 2px solid var(--orange-accent); letter-spacing: 1px;">${t.dmgTableHeaders.efficiency}</th>
-                <th style="width: 5%; background-color: var(--button-hover); padding: 12px 12px; border-bottom: 2px solid var(--orange-accent); border-top-right-radius: 6px;"></th>
+                <th style="text-align: left; width: 17%; background-color: var(--button-hover); color: var(--text-main); font-size: 0.6rem; text-transform: uppercase; padding: 4px 6px; border-bottom: 1px solid var(--orange-accent); letter-spacing: 1px;">${t.dmgTableHeaders.efficiency}</th>
+                <th style="width: 5%; background-color: var(--button-hover); padding: 4px 6px; border-bottom: 1px solid var(--orange-accent); border-top-right-radius: 4px;"></th>
             </tr>
         `;
     }
@@ -5215,9 +5215,9 @@ function dmgUpdateChartEngine(rebuildChart = true) {
             const combo = dmgActiveChartCombos[index];
             const tr = document.createElement('tr');
             
-            // TRAVA DE LINHA: Altura reduzida e inegociável (48px)
-            tr.style.height = "48px"; 
-            tr.style.maxHeight = "48px";
+            // TRAVA DE LINHA: Altura reduzida e inegociável em 64% (24px)
+            tr.style.height = "24px"; 
+            tr.style.maxHeight = "24px";
             tr.style.overflow = "hidden";
             
             if (combo) {
@@ -5237,15 +5237,15 @@ function dmgUpdateChartEngine(rebuildChart = true) {
                     }
                 }
 
-                let comboNameHTML = `<span style="font-weight: 900; color: var(--text-main); font-size: 18px; margin-right: 4px;">${wName}</span>`;
-                if (aName) comboNameHTML += `<span style="background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1); color: var(--orange-accent); padding: 1px 4px; border-radius: 4px; font-size: 15px; font-weight: bold; white-space: nowrap;">${aName}</span>`;
-                if (aLvl) comboNameHTML += `<span style="background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1); color: var(--text-dim); padding: 1px 4px; border-radius: 4px; font-size: 15px; font-weight: bold; white-space: nowrap;">${aLvl}</span>`;
+                let comboNameHTML = `<span style="font-weight: 900; color: var(--text-main); font-size: 0.64rem; margin-right: 2px;">${wName}</span>`;
+                if (aName) comboNameHTML += `<span style="background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1); color: var(--orange-accent); padding: 1px 3px; border-radius: 3px; font-size: 0.54rem; font-weight: bold; white-space: nowrap;">${aName}</span>`;
+                if (aLvl) comboNameHTML += `<span style="background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1); color: var(--text-dim); padding: 1px 3px; border-radius: 3px; font-size: 0.54rem; font-weight: bold; white-space: nowrap;">${aLvl}</span>`;
 
                 // --- DADOS BÁSICOS ---
                 let wInfo = db.weapons.find(w => w.NomeItem === combo.weapon);
                 let baseRange = 0;
                 let tipoCanoRaw = ""; 
-                let cadenciaRaw = t.dmgDynamicTexts.na || "N/A"; // Variável para Cadência
+                let cadenciaRaw = t.dmgDynamicTexts.na || "N/A"; 
                 
                 if (wInfo) {
                     if (wInfo.Alcance) {
@@ -5254,24 +5254,22 @@ function dmgUpdateChartEngine(rebuildChart = true) {
                     }
                     if (wInfo.TipoCano) tipoCanoRaw = String(wInfo.TipoCano);
                     
-                    // LÓGICA DE CAPTURA DA CADÊNCIA
                     if (wInfo.Cadencia) {
                         let numCad = parseInt(wInfo.Cadencia, 10);
-                        cadenciaRaw = isNaN(numCad) ? "-" : `${numCad} <span style="font-size: 12px; color: var(--text-dim);">RPM</span>`;
+                        cadenciaRaw = isNaN(numCad) ? "-" : `${numCad} <span style="font-size: 0.5rem; color: var(--text-dim);">RPM</span>`;
                     }
                 }
                 let tipoCanoLimpo = tipoCanoRaw.trim(); 
 
-                const divisorIcon = `<span style="color: var(--text-dim); margin: 0 8px; font-size: 17px; font-weight: normal; opacity: 0.7;">/</span>`;
+                const divisorIcon = `<span style="color: var(--text-dim); margin: 0 4px; font-size: 0.6rem; font-weight: normal; opacity: 0.7;">/</span>`;
                 
                 // Formatação HTML da coluna de Cadência
-                let valStrCadencia = `<div style="display: flex; align-items: center; white-space: nowrap;"><span style="color: var(--text-main); font-size: 17px; font-weight: bold;">${cadenciaRaw}</span></div>`;
+                let valStrCadencia = `<div style="display: flex; align-items: center; white-space: nowrap;"><span style="color: var(--text-main); font-size: 0.6rem; font-weight: bold;">${cadenciaRaw}</span></div>`;
                 
-                // NOVO: A função agora aceita a mensagem do Tooltip e muda o cursor do mouse para a interrogação de ajuda
                 const createBadge = (txt, color, tooltipText = "") => {
                     let titleAttr = tooltipText ? ` title="${tooltipText}"` : "";
                     let helpCursor = tooltipText ? ` cursor: help;` : "";
-                    return `<span style="border: 1px solid ${color}; color: ${color}; background: rgba(0,0,0,0.25); padding: 1px 4px; border-radius: 4px; font-size: 15px; font-weight: bold; white-space: nowrap;${helpCursor}"${titleAttr}>${txt}</span>`;
+                    return `<span style="border: 1px solid ${color}; color: ${color}; background: rgba(0,0,0,0.25); padding: 1px 3px; border-radius: 3px; font-size: 0.54rem; font-weight: bold; white-space: nowrap;${helpCursor}"${titleAttr}>${txt}</span>`;
                 };
 
                 // --- 2. MOTOR DE DANO ---
@@ -5298,7 +5296,7 @@ function dmgUpdateChartEngine(rebuildChart = true) {
                         if (tipoStr === "FBNM") return t.dmgDynamicTexts.tipDanoFixedNM || "";
                         if (tipoStr === "D+ R+ WD-") return t.dmgDynamicTexts.tipDanoMitigateEqual || "";
                     } else {
-                        if (tipoStr === "CustomD-") return t.dmgDynamicTexts.tipDanoCustom || ""; // BUG CORRIGIDO (Passo 2 anterior)
+                        if (tipoStr === "CustomD-") return t.dmgDynamicTexts.tipDanoCustom || "";
                         if (tipoStr === "R+ WD-") return t.dmgDynamicTexts.tipDanoNoBuff || "";
                         if (tipoStr === "Default -") return t.dmgDynamicTexts.tipDanoDefault || "";
                         if (tipoStr === "FB D-") return t.dmgDynamicTexts.tipDanoFixed || "";
@@ -5323,12 +5321,12 @@ function dmgUpdateChartEngine(rebuildChart = true) {
                     const fixo = ["FB", "FB D-", "FB D+", "FBNM", "FBNMD+", "FBNMD-"];
                     const customizado = ["Custom", "CustomD+", "CustomD-"];
                     const comBuff = ["R+", "R+ WD+", "R+ WD-", "D+ R+", "D+ R+ WD+", "D+ R+ WD-"];
-                    const apenasDano = ["D+"]; // <-- NOVA CATEGORIA CRIADA AQUI
+                    const apenasDano = ["D+"]; 
                     
                     if (padrao.includes(tipoStr)) return t.dmgDynamicTexts.tipRangeDefault || "";
                     if (fixo.includes(tipoStr)) return t.dmgDynamicTexts.tipRangeFixed || "";
                     if (customizado.includes(tipoStr)) return t.dmgDynamicTexts.tipRangeCustom || "";
-                    if (apenasDano.includes(tipoStr)) return t.dmgDynamicTexts.tipRangeDPlus || ""; // <-- INVOCA A NOVA DESCRIÇÃO
+                    if (apenasDano.includes(tipoStr)) return t.dmgDynamicTexts.tipRangeDPlus || "";
                     if (comBuff.includes(tipoStr)) return t.dmgDynamicTexts.tipRangeBuff || "";
                     return "";
                 };
@@ -5366,11 +5364,8 @@ function dmgUpdateChartEngine(rebuildChart = true) {
                     else if (danoPerdaMitigador.includes(tipoCanoLimpo)) tagsDanoHTML = createBadge(tagWepLoss, "var(--fail)", toolWep) + createBadge(tagMitigator, corCanoMitigador, toolCano);
                     else if (danoArmaComGanho.includes(tipoCanoLimpo)) tagsDanoHTML = createBadge(tagWepGain, "var(--success)", toolWep) + createBadge(tagCanoNoBuff, "var(--text-dim)", toolCano);
                     else if (danoArmaComGanhoFixo.includes(tipoCanoLimpo)) tagsDanoHTML = createBadge(tagWepGain, "var(--success)", toolWep) + createBadge(tagFixed, "var(--text-dim)", toolCano);
-                    
-                    // A CORREÇÃO MESTRA: Apenas D+R+WD+ recebe duas etiquetas de ganho
                     else if (tipoCanoLimpo === "D+ R+ WD+") tagsDanoHTML = createBadge(tagWepGain, "var(--success)", toolWep) + createBadge(tagBuff, "var(--success)", toolCano);
                     else if (tipoCanoLimpo === "D+" || tipoCanoLimpo === "D+ R+") tagsDanoHTML = createBadge(tagBuff, "var(--success)", toolCano);
-                    
                     else tagsDanoHTML = createBadge("?", "var(--text-dim)");
                 }
                 
@@ -5379,11 +5374,11 @@ function dmgUpdateChartEngine(rebuildChart = true) {
 
                 let numsDanoHTML = "";
                 if (isDanoIgual) {
-                    numsDanoHTML = `<span style="color: var(--text-dim); font-size: 17px; font-weight: bold;">${baseNumStr}</span>`;
+                    numsDanoHTML = `<span style="color: var(--text-dim); font-size: 0.6rem; font-weight: bold;">${baseNumStr}</span>`;
                 } else {
-                    numsDanoHTML = `<div style="display: flex; align-items: center;"><span style="color: var(--text-main); font-size: 17px; font-weight: bold;">${baseNumStr}</span>${divisorIcon}<span style="color: ${corNumeroDano}; font-weight: bold; font-size: 17px;">${maxNumStr}</span></div>`;
+                    numsDanoHTML = `<div style="display: flex; align-items: center;"><span style="color: var(--text-main); font-size: 0.6rem; font-weight: bold;">${baseNumStr}</span>${divisorIcon}<span style="color: ${corNumeroDano}; font-weight: bold; font-size: 0.6rem;">${maxNumStr}</span></div>`;
                 }
-                let valStr1 = `<div style="display: flex; align-items: center; gap: 14px; white-space: nowrap;">${numsDanoHTML}<div style="display: flex; align-items: center; gap: 4px;">${tagsDanoHTML}</div></div>`;
+                let valStr1 = `<div style="display: flex; align-items: center; gap: 8px; white-space: nowrap;">${numsDanoHTML}<div style="display: flex; align-items: center; gap: 2px;">${tagsDanoHTML}</div></div>`;
 
                 // --- 3. MOTOR DE ALCANCE ---
                 let effRange = combo.data.length > 0 ? combo.data[0].alcance : 0;
@@ -5391,11 +5386,11 @@ function dmgUpdateChartEngine(rebuildChart = true) {
                 let valStr2 = "";
                 
                 if (baseRange === 0) {
-                    let numsAlcanceHTML = `<div style="display: flex; align-items: center;"><span style="color: var(--text-main); font-size: 17px; font-weight: bold;">?</span>${divisorIcon}<span style="color: var(--success); font-weight: bold; font-size: 17px;">${effRange}m</span></div>`;
+                    let numsAlcanceHTML = `<div style="display: flex; align-items: center;"><span style="color: var(--text-main); font-size: 0.6rem; font-weight: bold;">?</span>${divisorIcon}<span style="color: var(--success); font-weight: bold; font-size: 0.6rem;">${effRange}m</span></div>`;
                     valStr2 = `<div style="display: flex; align-items: center; white-space: nowrap;">${numsAlcanceHTML}</div>`;
                 } else {
                     let txtAlcance = "?"; 
-                    let corAlcance = "var(--text-dim)"; // <-- NOVO: Cor neutra padrão (Cinza) para a maioria
+                    let corAlcance = "var(--text-dim)"; 
                     
                     const alcanceCanoPadrao = ["Default", "Default +", "Default -"];
                     const alcanceCanoFixo = ["FB", "FB D-", "FB D+", "FBNM", "FBNMD+", "FBNMD-"];
@@ -5413,20 +5408,19 @@ function dmgUpdateChartEngine(rebuildChart = true) {
                         txtAlcance = t.dmgDynamicTexts.badgeNoGain || "Cano Neutro"; 
                     } else if (alcanceCanoComBuff.includes(tipoCanoLimpo)) {
                         txtAlcance = t.dmgDynamicTexts.badgeCanoBuff || "Cano com Buff";
-                        corAlcance = "var(--success)"; // <-- NOVO: Fica Verde Radiante apenas se tiver Buff!
+                        corAlcance = "var(--success)"; 
                     }
 
-                    // Aplica a cor inteligente que definimos acima
                     let tagRangeHTML = createBadge(txtAlcance, corAlcance, getRangeTooltip(tipoCanoLimpo));
                     let numsAlcanceHTML = "";
 
                     if (baseRange === effRange) {
-                        numsAlcanceHTML = `<span style="color: var(--text-dim); font-size: 17px; font-weight: bold;">${baseRange}m</span>`;
+                        numsAlcanceHTML = `<span style="color: var(--text-dim); font-size: 0.6rem; font-weight: bold;">${baseRange}m</span>`;
                     } else {
                         let corNumRange = rangeGain > 0 ? 'var(--success)' : 'var(--fail)';
-                        numsAlcanceHTML = `<div style="display: flex; align-items: center;"><span style="color: var(--text-main); font-size: 17px; font-weight: bold;">${baseRange}m</span>${divisorIcon}<span style="color: ${corNumRange}; font-weight: bold; font-size: 17px;">${effRange}m</span></div>`;
+                        numsAlcanceHTML = `<div style="display: flex; align-items: center;"><span style="color: var(--text-main); font-size: 0.6rem; font-weight: bold;">${baseRange}m</span>${divisorIcon}<span style="color: ${corNumRange}; font-weight: bold; font-size: 0.6rem;">${effRange}m</span></div>`;
                     }
-                    valStr2 = `<div style="display: flex; align-items: center; gap: 14px; white-space: nowrap;">${numsAlcanceHTML}<div style="display: flex; align-items: center; gap: 4px;">${tagRangeHTML}</div></div>`;
+                    valStr2 = `<div style="display: flex; align-items: center; gap: 8px; white-space: nowrap;">${numsAlcanceHTML}<div style="display: flex; align-items: center; gap: 2px;">${tagRangeHTML}</div></div>`;
                 }
                 
                 // --- 4. EFICIÊNCIA FINAL ---
@@ -5435,7 +5429,6 @@ function dmgUpdateChartEngine(rebuildChart = true) {
                     let bonusDmg = Math.round(((wepMaxTotal - ammoTotalBaseDmg) / ammoTotalBaseDmg) * 100 * 10) / 10;
                     let partsHTML = [];
                     
-                    // TOOLTIP E ETIQUETA DO DANO
                     if (bonusDmg !== 0) {
                         let sign = bonusDmg > 0 ? "+" : "";
                         let color = bonusDmg > 0 ? "var(--success)" : "var(--fail)";
@@ -5444,7 +5437,6 @@ function dmgUpdateChartEngine(rebuildChart = true) {
                         partsHTML.push(createBadge(`${sign}${bonusDmg}${dmgLabel}`, color, tipDmg));
                     }
                     
-                    // TOOLTIP E ETIQUETA DO ALCANCE
                     if (rangeGain !== 0) {
                         let sign = rangeGain > 0 ? "+" : "";
                         let color = rangeGain > 0 ? "var(--success)" : "var(--fail)";
@@ -5453,47 +5445,44 @@ function dmgUpdateChartEngine(rebuildChart = true) {
                         partsHTML.push(createBadge(`${sign}${rangeGain}${rangeLabel}`, color, tipRange));
                     }
                     
-                    // GERADOR DA LINHA: Se tiver peças (Dano/Alcance), junta elas. Se não tiver, gera o NEUTRO.
                     if (partsHTML.length > 0) {
-                        effStr = `<div style="display: flex; align-items: center; gap: 6px; white-space: nowrap;">${partsHTML.join('')}</div>`;
+                        effStr = `<div style="display: flex; align-items: center; gap: 4px; white-space: nowrap;">${partsHTML.join('')}</div>`;
                     } else {
                         let tipNeutro = t.dmgDynamicTexts.tipEffNeutral || "";
                         let txtNeutro = t.dmgDynamicTexts.effNeutralBadge || "NEUTRO";
                         effStr = `<div style="display: flex; align-items: center; white-space: nowrap;">${createBadge(txtNeutro, "var(--text-dim)", tipNeutro)}</div>`;
                     }
                 } else {
-                    // SE A MUNIÇÃO NÃO TIVER DANO BASE CADASTRADO NO CSV
                     effStr = `<div style="display: flex; align-items: center; white-space: nowrap;">${createBadge(t.dmgDynamicTexts.na || "N/A", "var(--text-dim)")}</div>`;
                 }
                 
                 // --- DESIGN DA LINHA ATIVA ---
                 tr.style.backgroundColor = "var(--button-back)";
-                tr.style.boxShadow = "0px 4px 6px rgba(0,0,0,0.15)";
+                tr.style.boxShadow = "0px 2px 4px rgba(0,0,0,0.15)";
                 
-                // NOTA: Agora com 6 colunas (td)
                 tr.innerHTML = `
-                    <td style="padding: 0; white-space: nowrap; border-top-left-radius: 6px; border-bottom-left-radius: 6px; border-left: 4px solid ${combo.color};">
-                        <div style="height: 48px; box-sizing: border-box; display: flex; align-items: center; padding: 0 12px; gap: 8px;">
-                            <span style="display: inline-block; width: 16px; height: 16px; border-radius: 50%; background-color: ${combo.color}; box-shadow: 0 0 6px ${combo.color}; flex-shrink: 0;"></span>
-                            <div style="display: flex; align-items: center; gap: 4px;">${comboNameHTML}</div>
+                    <td style="padding: 0; white-space: nowrap; border-top-left-radius: 4px; border-bottom-left-radius: 4px; border-left: 3px solid ${combo.color};">
+                        <div style="height: 24px; box-sizing: border-box; display: flex; align-items: center; padding: 0 6px; gap: 4px;">
+                            <span style="display: inline-block; width: 10px; height: 10px; border-radius: 50%; background-color: ${combo.color}; box-shadow: 0 0 4px ${combo.color}; flex-shrink: 0;"></span>
+                            <div style="display: flex; align-items: center; gap: 3px;">${comboNameHTML}</div>
                         </div>
                     </td>
                     <td style="padding: 0; white-space: nowrap;">
-                        <div style="height: 48px; box-sizing: border-box; display: flex; align-items: center; padding: 0 12px;">${valStrCadencia}</div>
+                        <div style="height: 24px; box-sizing: border-box; display: flex; align-items: center; padding: 0 6px;">${valStrCadencia}</div>
                     </td>
                     <td style="padding: 0; white-space: nowrap;">
-                        <div style="height: 48px; box-sizing: border-box; display: flex; align-items: center; padding: 0 12px;">${valStr1}</div>
+                        <div style="height: 24px; box-sizing: border-box; display: flex; align-items: center; padding: 0 6px;">${valStr1}</div>
                     </td>
                     <td style="padding: 0; white-space: nowrap;">
-                        <div style="height: 48px; box-sizing: border-box; display: flex; align-items: center; padding: 0 12px;">${valStr2}</div>
+                        <div style="height: 24px; box-sizing: border-box; display: flex; align-items: center; padding: 0 6px;">${valStr2}</div>
                     </td>
                     <td style="padding: 0; white-space: nowrap;">
-                        <div style="height: 48px; box-sizing: border-box; display: flex; align-items: center; padding: 0 12px;">${effStr}</div>
+                        <div style="height: 24px; box-sizing: border-box; display: flex; align-items: center; padding: 0 6px;">${effStr}</div>
                     </td>
-                    <td style="padding: 0; border-top-right-radius: 6px; border-bottom-right-radius: 6px; text-align: center;">
-                        <div style="height: 48px; box-sizing: border-box; display: flex; align-items: center; justify-content: center; padding: 0 12px;">
-                            <button style="background: transparent; border: none; cursor: pointer; color: var(--fail); opacity: 0.6; padding: 8px; transition: 0.2s; display: flex; justify-content: center; align-items: center; width: 100%; height: 100%;" onmouseover="this.style.opacity='1'" onmouseout="this.style.opacity='0.6'" title="${t.dmgDynamicTexts.removeTooltip || 'Remover'}" onclick="dmgRemoveCombo(${index})">
-                                <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                    <td style="padding: 0; border-top-right-radius: 4px; border-bottom-right-radius: 4px; text-align: center;">
+                        <div style="height: 24px; box-sizing: border-box; display: flex; align-items: center; justify-content: center; padding: 0 6px;">
+                            <button style="background: transparent; border: none; cursor: pointer; color: var(--fail); opacity: 0.6; padding: 2px; transition: 0.2s; display: flex; justify-content: center; align-items: center; width: 100%; height: 100%;" onmouseover="this.style.opacity='1'" onmouseout="this.style.opacity='0.6'" title="${t.dmgDynamicTexts.removeTooltip || 'Remover'}" onclick="dmgRemoveCombo(${index})">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
                                     <circle cx="12" cy="12" r="10"></circle>
                                     <line x1="15" y1="9" x2="9" y2="15"></line>
                                     <line x1="9" y1="9" x2="15" y2="15"></line>
@@ -5507,8 +5496,8 @@ function dmgUpdateChartEngine(rebuildChart = true) {
                 tr.classList.add('dmg-empty-slot');
                 const slotText = t.dmgDynamicTexts.slotAvailable || "SLOT DISPONÍVEL";
                 tr.innerHTML = `
-                    <td colspan="6" style="padding: 0; border-radius: 6px; border: 1px dashed rgba(255,255,255,0.08); background: repeating-linear-gradient(45deg, rgba(255,255,255,0.01), rgba(255,255,255,0.01) 10px, transparent 10px, transparent 20px);">
-                        <div style="height: 48px; box-sizing: border-box; display: flex; justify-content: center; align-items: center; width: 100%; color: rgba(255,255,255,0.25); font-size: 15px; font-weight: bold; letter-spacing: 2px;">
+                    <td colspan="6" style="padding: 0; border-radius: 4px; border: 1px dashed rgba(255,255,255,0.08); background: repeating-linear-gradient(45deg, rgba(255,255,255,0.01), rgba(255,255,255,0.01) 5px, transparent 5px, transparent 10px);">
+                        <div style="height: 24px; box-sizing: border-box; display: flex; justify-content: center; align-items: center; width: 100%; color: rgba(255,255,255,0.25); font-size: 0.58rem; font-weight: bold; letter-spacing: 1px;">
                             + ${slotText}
                         </div>
                     </td>
@@ -5571,21 +5560,13 @@ function dmgUpdateChartEngine(rebuildChart = true) {
         const datasets = dmgActiveChartCombos.map(combo => {
             let pts = [];
             if (combo.data.length > 0) {
-                // Fantasma do eixo esquerdo (Parede MinX)
                 pts.push({ x: axisMinX, y: combo.data[0].danoTotal, simulado: false, isFake: true });
-                
                 combo.data.forEach((p, index) => {
-                    // Ponto real (A Bolinha do HUD)
                     pts.push({ x: p.alcance, y: p.danoTotal, simulado: p.simulado, isFake: false });
-                    
-                    // --- NOVA FÍSICA: O TRUQUE VISUAL DO ALCANCE INICIAL (.99) ---
-                    // Se for o primeiro ponto (Alcance Inicial), cria um degrau reto quase encostando no próximo metro
                     if (index === 0) {
                         pts.push({ x: p.alcance + 0.99, y: p.danoTotal, simulado: false, isFake: true });
                     }
                 });
-                
-                // Fantasma do eixo direito (Parede MaxX)
                 pts.push({ x: axisMaxX, y: combo.data[combo.data.length - 1].danoTotal, simulado: false, isFake: true });
             }
             
@@ -5595,29 +5576,27 @@ function dmgUpdateChartEngine(rebuildChart = true) {
                 borderColor: combo.color,
                 backgroundColor: combo.color,
                 pointStyle: combo.marker, 
-                // Zera o tamanho visual de todos os pontos marcados como Fake
-                pointRadius: pts.map(p => p.isFake ? 0 : 6),
+                // Tamanho original era 6, caiu para 4px (64%)
+                pointRadius: pts.map(p => p.isFake ? 0 : 4), 
                 
-                // --- MUDANÇA: EFEITO DE ALTO CONTRASTE NO HOVER (MIRA DE SNIPER) ---
-                pointHoverRadius: pts.map(p => p.isFake ? 0 : 12),
-                pointHoverBorderWidth: 3,
+                // Mira Hover original era 12, caiu para 8px (64%)
+                pointHoverRadius: pts.map(p => p.isFake ? 0 : 8),
+                pointHoverBorderWidth: 2,
                 pointHoverBorderColor: '#FFFFFF',
-                
-                borderWidth: 3,
+                borderWidth: 2,
                 tension: 0, 
                 fill: false
             };
         });
 
-        // --- A MÁGICA: RADAR CALIBRADO COM O ZOOM DO CSS ---
+        // --- A MÁGICA: RADAR CALIBRADO ---
         Chart.Interaction.modes.pointZoomCalibrado = function(chart, e, options, useFinalPosition) {
             const items = [];
             if (e.x === undefined || e.y === undefined) return items;
             
-            // O Fator de Zoom do seu CSS (80%)
-            const ZOOM_CSS = 0.8; 
+            // Como removemos o zoom global do CSS, o mouse agora opera em escala 1:1 nativa!
+            const ZOOM_CSS = 1; 
             
-            // A CALIBRAÇÃO: Puxa o mouse de volta para onde a bolinha matemática realmente está
             const mouseCalibradoX = e.x / ZOOM_CSS;
             const mouseCalibradoY = e.y / ZOOM_CSS;
             
@@ -5627,14 +5606,12 @@ function dmgUpdateChartEngine(rebuildChart = true) {
                     meta.data.forEach((element, index) => {
                         const pt = dataset.data[index];
                         if (pt && !pt.isFake && element.x !== undefined && element.y !== undefined) {
-                            
-                            // Calcula a distância usando a coordenada corrigida
                             const distX = mouseCalibradoX - element.x;
                             const distY = mouseCalibradoY - element.y;
                             const distancia = Math.sqrt(distX * distX + distY * distY);
                             
-                            // MUDANÇA AQUI: Hitbox restrito a 6px (Idêntico ao tamanho real do pointRadius)
-                            if (distancia <= 6) {
+                            // Hitbox restrito a 4px (Para bater com o tamanho reduzido da bolinha visual)
+                            if (distancia <= 4) {
                                 items.push({ element: element, datasetIndex: datasetIndex, index: index });
                             }
                         }
@@ -5644,29 +5621,27 @@ function dmgUpdateChartEngine(rebuildChart = true) {
             return items;
         };
 
-        // --- 3. O MOTOR DO NOVO BALÃO HTML (TOOLTIP EXTERNO) ---
+        // --- 3. O MOTOR DO NOVO BALÃO HTML (ESCALA 64%) ---
         const getOrCreateTooltip = (chart) => {
             let tooltipEl = chart.canvas.parentNode.querySelector('div.custom-tooltip');
             
             if (!tooltipEl) {
                 tooltipEl = document.createElement('div');
                 tooltipEl.classList.add('custom-tooltip');
-                // Estilo "Armadura Tática" da caixa HTML
                 Object.assign(tooltipEl.style, {
                     background: 'rgba(20, 20, 22, 0.98)',
-                    borderRadius: '8px',
+                    borderRadius: '5px',
                     color: 'white',
                     opacity: 0,
                     pointerEvents: 'none',
                     position: 'absolute',
-                    // Substituímos o Transform engessado por uma animação suave de movimento
                     transition: 'opacity 0.15s ease, left 0.1s ease, top 0.1s ease', 
                     border: '1px solid #FFA500',
-                    boxShadow: '0px 10px 25px rgba(0,0,0,0.8)',
-                    padding: '15px',
+                    boxShadow: '0px 6px 16px rgba(0,0,0,0.8)',
+                    padding: '10px',
                     zIndex: 999,
-                    minWidth: '240px',
-                    maxWidth: '90%', // Impede o tooltip de ficar maior que a própria tela se tiverem 5 armas juntas
+                    minWidth: '153px',
+                    maxWidth: '90%', 
                     fontFamily: "'Segoe UI', Tahoma, Geneva, Verdana, sans-serif"
                 });
                 chart.canvas.parentNode.appendChild(tooltipEl);
@@ -5675,13 +5650,10 @@ function dmgUpdateChartEngine(rebuildChart = true) {
         };
 
         const externalTooltipHandler = (context) => {
-            // CORREÇÃO: O Tooltip agora puxa a linguagem dinamicamente no momento do Hover (Em Tempo Real)
             const langT = translations[currentLang];
-            
             const {chart, tooltip} = context;
             const tooltipEl = getOrCreateTooltip(chart);
 
-            // Esconde o balão se o mouse sair do ponto
             if (tooltip.opacity === 0) {
                 tooltipEl.style.opacity = 0;
                 return;
@@ -5696,21 +5668,17 @@ function dmgUpdateChartEngine(rebuildChart = true) {
 
                 const distance = validPoints[0].raw.x;
                 
-                // 1. Cabeçalho Centralizado
                 let contentHTML = `
-                    <div style="border-bottom: 1px solid rgba(255, 255, 255, 0.1); padding-bottom: 8px; margin-bottom: 12px; text-align: center;">
-                        <span style="color: #FFA500; font-size: 14px; font-weight: bold; letter-spacing: 2px;">📍 ${langT.dmgDynamicTexts.chartDistance.toUpperCase()}: <span style="font-size: 18px; color: white;">${distance}m</span></span>
+                    <div style="border-bottom: 1px solid rgba(255, 255, 255, 0.1); padding-bottom: 5px; margin-bottom: 8px; text-align: center;">
+                        <span style="color: #FFA500; font-size: 9px; font-weight: bold; letter-spacing: 1px;">📍 ${langT.dmgDynamicTexts.chartDistance.toUpperCase()}: <span style="font-size: 12px; color: white;">${distance}m</span></span>
                     </div>
-                    <!-- Container Horizontal Inteligente (Flexbox com quebra de linha) -->
-                    <div style="display: flex; gap: 15px; flex-wrap: wrap; justify-content: center;">
+                    <div style="display: flex; gap: 10px; flex-wrap: wrap; justify-content: center;">
                 `;
 
-                // 2. Loop Multi-Alvo (Gera as Fichas Lado a Lado)
                 validPoints.forEach((dataPoint) => {
                     const pt = dataPoint.raw;
-                    const ptIndex = dataPoint.dataIndex;
                     const isSimulated = pt.simulado;
-                    const isInitial = (ptIndex === 1); 
+                    const isInitial = (dataPoint.dataIndex === 1); 
                     const combo = dmgActiveChartCombos[dataPoint.datasetIndex];
                     
                     let tipoStr = langT.dmgDynamicTexts.chartTypeFinal;
@@ -5725,18 +5693,16 @@ function dmgUpdateChartEngine(rebuildChart = true) {
                     }
 
                     const valDanoTotal = pt.y;
-                    const labelRaw = dataPoint.dataset.label;
-                    let wName = labelRaw;
+                    let wName = dataPoint.dataset.label;
                     let aName = "";
                     let aLvl = "";
                     
-                    const regexMatch = labelRaw.match(/^(.*?)\s*\((.*?)(?:\s*-\s*(.*))?\)$/);
+                    const regexMatch = wName.match(/^(.*?)\s*\((.*?)(?:\s*-\s*(.*))?\)$/);
                     if (regexMatch) {
                         wName = regexMatch[1].trim(); 
                         if (regexMatch[3]) {
                             aName = regexMatch[2].trim(); 
                             aLvl = regexMatch[3].trim();
-                            // --- TRADUTOR DINÂMICO DO BALÃO DO MOUSE ---
                             const tLvl = translations[currentLang].lblLvl;
                             aLvl = aLvl.replace('Lv.', tLvl).replace('Nv.', tLvl);
                         } else {
@@ -5747,76 +5713,63 @@ function dmgUpdateChartEngine(rebuildChart = true) {
                     const weaponColor = combo.color || '#00BCD4';
 
                     let weaponBlockHTML = `
-                        <div style="margin-bottom: 12px; border-left: 4px solid ${weaponColor}; padding-left: 10px; background: rgba(255, 255, 255, 0.05); padding-top: 8px; padding-bottom: 8px; border-radius: 0 4px 4px 0;">
-                            <div style="font-size: 18px; font-weight: 900; color: #FFFFFF; letter-spacing: 1px; text-transform: uppercase; line-height: 1;">${wName}</div>
+                        <div style="margin-bottom: 8px; border-left: 3px solid ${weaponColor}; padding-left: 6px; background: rgba(255, 255, 255, 0.05); padding-top: 5px; padding-bottom: 5px; border-radius: 0 3px 3px 0;">
+                            <div style="font-size: 12px; font-weight: 900; color: #FFFFFF; letter-spacing: 1px; text-transform: uppercase; line-height: 1;">${wName}</div>
                             ${aName ? `
-                            <div style="display: flex; align-items: center; gap: 8px; margin-top: 8px;">
-                                <span style="color: ${weaponColor}; font-size: 15px; font-weight: bold; line-height: 1;">${aName}</span>
-                                ${aLvl ? `<span style="background-color: rgba(255,255,255,0.1); border: 1px solid rgba(255,255,255,0.2); color: #e0e0e0; font-size: 15px; padding: 2px 5px; border-radius: 4px; font-weight: bold; line-height: 1;">${aLvl}</span>` : ''}
+                            <div style="display: flex; align-items: center; gap: 5px; margin-top: 5px;">
+                                <span style="color: ${weaponColor}; font-size: 10px; font-weight: bold; line-height: 1;">${aName}</span>${aLvl ? `<span style="background-color: rgba(255,255,255,0.1); border: 1px solid rgba(255,255,255,0.2); color: #e0e0e0; font-size: 10px; padding: 1px 3px; border-radius: 3px; font-weight: bold; line-height: 1;">${aLvl}</span>` : ''}
                             </div>` : ''}
                         </div>
                     `;
                     
-                    let dmgDisplay = `<span style="font-size: 28px; font-weight: 900; color: #FFFFFF; text-shadow: 0 0 10px rgba(255,255,255,0.4);">${valDanoTotal}</span>`;
+                    let dmgDisplay = `<span style="font-size: 18px; font-weight: 900; color: #FFFFFF; text-shadow: 0 0 6px rgba(255,255,255,0.4);">${valDanoTotal}</span>`;
                     if (combo.pelletCount > 1) {
                         let porPellet = Math.round(valDanoTotal / combo.pelletCount);
                         dmgDisplay = `
                             <div style="text-align: right;">
-                                <span style="font-size: 22px; font-weight: 900; color: #FFFFFF;">${porPellet}${combo.pelletText}</span><br>
-                                <span style="font-size: 12px; color: #a0a0a0;">(Total: ${valDanoTotal})</span>
+                                <span style="font-size: 14px; font-weight: 900; color: #FFFFFF;">${porPellet}${combo.pelletText}</span><br>
+                                <span style="font-size: 8px; color: #a0a0a0;">(Total: ${valDanoTotal})</span>
                             </div>`;
                     }
 
-                    // A Ficha agora é uma coluna ('flex: 1') para dividir o espaço lado a lado
                     contentHTML += `
-                        <div style="flex: 1; min-width: 200px; display: flex; flex-direction: column;">
+                        <div style="flex: 1; min-width: 128px; display: flex; flex-direction: column;">
                             ${weaponBlockHTML}
-                            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px; background: rgba(255,255,255,0.05); padding: 4px 8px; border-radius: 4px; border-left: 4px solid ${tipoColor};">
-                                <span style="color: #a0a0a0; font-size: 11px; font-weight: bold; text-transform: uppercase;">${langT.dmgDynamicTexts.chartType}</span>
-                                <span style="color: ${tipoColor}; font-size: 13px; font-weight: 900; letter-spacing: 1px;">${tipoStr}</span>
+                            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px; background: rgba(255,255,255,0.05); padding: 3px 5px; border-radius: 3px; border-left: 3px solid ${tipoColor};">
+                                <span style="color: #a0a0a0; font-size: 7px; font-weight: bold; text-transform: uppercase;">${langT.dmgDynamicTexts.chartType}</span>
+                                <span style="color: ${tipoColor}; font-size: 8px; font-weight: 900; letter-spacing: 1px;">${tipoStr}</span>
                             </div>
-                            <div style="display: flex; align-items: center; justify-content: space-between; background: rgba(0,0,0,0.3); padding: 8px 10px; border-radius: 6px; border: 1px solid rgba(255,255,255,0.05); margin-top: auto;">
-                                <span style="color: #e0e0e0; font-size: 13px; font-weight: bold;">${langT.dmgDynamicTexts.damageText}:</span>
+                            <div style="display: flex; align-items: center; justify-content: space-between; background: rgba(0,0,0,0.3); padding: 5px 6px; border-radius: 4px; border: 1px solid rgba(255,255,255,0.05); margin-top: auto;">
+                                <span style="color: #e0e0e0; font-size: 8px; font-weight: bold;">${langT.dmgDynamicTexts.damageText}:</span>
                                 ${dmgDisplay}
                             </div>
                         </div>
                     `;
                 });
 
-                contentHTML += `</div>`; // Fecha o container horizontal
+                contentHTML += `</div>`; 
                 tooltipEl.innerHTML = contentHTML;
             }
 
-            // =========================================================================
-            // 3. INTELIGÊNCIA DE COLISÃO (Mede o tamanho exato da caixa e do gráfico)
-            // =========================================================================
             const {offsetLeft: positionX, offsetTop: positionY} = chart.canvas;
-            
-            // Pega o tamanho real do Tooltip *depois* dele ser preenchido de texto
             const tooltipWidth = tooltipEl.offsetWidth;
             const tooltipHeight = tooltipEl.offsetHeight;
             const chartWidth = chart.width;
             const chartHeight = chart.height;
 
-            // Posição desejada (Centralizado no X e Embaixo no Y)
             let finalLeft = positionX + tooltip.caretX - (tooltipWidth / 2);
-            let finalTop = positionY + tooltip.caretY + 15;
+            let finalTop = positionY + tooltip.caretY + 10;
 
-            // TRAVA Y (Vertical): Se a caixa for atravessar o chão, joga ela pra cima do mouse
             if ((finalTop + tooltipHeight) > (positionY + chartHeight)) {
-                finalTop = positionY + tooltip.caretY - tooltipHeight - 15;
+                finalTop = positionY + tooltip.caretY - tooltipHeight - 10;
             }
 
-            // TRAVA X (Horizontal): Se a caixa for vazar pela esquerda ou direita
             if (finalLeft < positionX) {
-                // Prende na parede esquerda
-                finalLeft = positionX + 15;
+                finalLeft = positionX + 10;
             } else if ((finalLeft + tooltipWidth) > (positionX + chartWidth)) {
-                // Prende na parede direita
-                finalLeft = positionX + chartWidth - tooltipWidth - 15;
+                finalLeft = positionX + chartWidth - tooltipWidth - 10;
             }
 
-            // Aplica as posições cravadas em pixels (Fim das barras de rolagem!)
             tooltipEl.style.left = finalLeft + 'px';
             tooltipEl.style.top = finalTop + 'px';
             tooltipEl.style.opacity = 1;
@@ -5833,7 +5786,7 @@ function dmgUpdateChartEngine(rebuildChart = true) {
                     mode: 'pointZoomCalibrado',   
                     intersect: false, 
                 },
-                layout: { padding: { top: 20, bottom: 20 } },
+                layout: { padding: { top: 13, bottom: 13 } },
                 plugins: {
                     zoom: {
                         limits: { 
@@ -5854,11 +5807,9 @@ function dmgUpdateChartEngine(rebuildChart = true) {
                     },
                     legend: {
                         position: 'top',
-                        padding: { bottom: 80 },
-                        labels: { color: '#e0e0e0', font: { size: 15, family: 'Segoe UI', weight: 'bold' }, usePointStyle: true, padding: 25 }
+                        padding: { bottom: 50 },
+                        labels: { color: '#e0e0e0', font: { size: 10, family: 'Segoe UI', weight: 'bold' }, usePointStyle: true, padding: 16 }
                     },
-                    
-                    // --- DESLIGAMOS O BALÃO NATIVO E LIGAMOS O SEU NOVO REMAKE HTML ---
                     tooltip: {
                         enabled: false, 
                         external: externalTooltipHandler
@@ -5867,19 +5818,19 @@ function dmgUpdateChartEngine(rebuildChart = true) {
                 scales: {
                     x: {
                         type: 'linear', min: axisMinX, max: axisMaxX, 
-                        title: { display: true, text: t.dmgDynamicTexts.axisDistance, color: '#FFA500', font: { size: 18, weight: 'bold', family: 'Segoe UI' }, padding: { top: 25, bottom: 10 } },
+                        title: { display: true, text: t.dmgDynamicTexts.axisDistance, color: '#FFA500', font: { size: 12, weight: 'bold', family: 'Segoe UI' }, padding: { top: 16, bottom: 6 } },
                         grid: { color: 'rgba(255,255,255,0.15)' },
                         ticks: { 
-                            stepSize: xStep, maxRotation: -90, minRotation: -90, color: '#a0a0a0', font: { size: 14, weight: 'normal', family: 'Segoe UI' }, padding: 45, z: 10,
+                            stepSize: xStep, maxRotation: -90, minRotation: -90, color: '#a0a0a0', font: { size: 9, weight: 'normal', family: 'Segoe UI' }, padding: 29, z: 10,
                             callback: function(value) { return Number.isInteger(value) ? String(value).split('').join('\u200A') : null; }
                         }
                     },
                     y: {
                         min: axisMinY, max: axisMaxY, 
-                        title: { display: true, text: t.dmgDynamicTexts.axisDamage, color: '#FFA500', font: { size: 18, weight: 'bold', family: 'Segoe UI' }, padding: { bottom: 40, top: 10 } },
+                        title: { display: true, text: t.dmgDynamicTexts.axisDamage, color: '#FFA500', font: { size: 12, weight: 'bold', family: 'Segoe UI' }, padding: { bottom: 25, top: 6 } },
                         grid: { color: 'rgba(255,255,255,0.15)' },
                         ticks: { 
-                            stepSize: yStep, color: '#a0a0a0', font: { size: 14, weight: 'normal', family: 'Segoe UI' }, padding: 20, z: 10,
+                            stepSize: yStep, color: '#a0a0a0', font: { size: 9, weight: 'normal', family: 'Segoe UI' }, padding: 13, z: 10,
                             callback: function(value) { return Number.isInteger(value) ? String(value).split('').join('\u200A') : null; }
                         }
                     }
@@ -7333,14 +7284,13 @@ function simRunCombatCalculation() {
     }
     
     // =======================================================
-    // ALIMENTANDO OS DADOS NA TELA
+    // ALIMENTANDO OS DADOS NA TELA (ATUALIZADO PARA ESCALA 64% - FONTES IGUAIS)
     // =======================================================
     const lblRegionClose = document.getElementById('sim-lbl-ttk-region-close');
     const lblRegionFar = document.getElementById('sim-lbl-ttk-region-far');
     if (lblRegionClose) lblRegionClose.textContent = regionText;
     if (lblRegionFar) lblRegionFar.textContent = regionText;
 
-    // Regiões da Coluna de Média
     const lblAvgRegionClose = document.getElementById('sim-lbl-avgttk-region-close');
     const lblAvgRegionFar = document.getElementById('sim-lbl-avgttk-region-far');
     if (lblAvgRegionClose) lblAvgRegionClose.textContent = regionText;
@@ -7352,10 +7302,11 @@ function simRunCombatCalculation() {
     const valDmgClose = document.getElementById('sim-res-val-dmg');
     if (pCount > 1) {
         valDmgClose.textContent = `${Math.round(damageOnPen / pCount)}x${pCount} (${damageOnPen})`;
-        valDmgClose.style.fontSize = "1.5rem"; 
+        valDmgClose.style.fontSize = "1.53rem"; // <-- MÁGICA: Fonte grande igualada
+        valDmgClose.style.whiteSpace = "nowrap"; // Impede que o texto quebre em duas linhas
     } else {
         valDmgClose.textContent = damageOnPen;
-        valDmgClose.style.fontSize = "2.4rem"; 
+        valDmgClose.style.fontSize = "1.53rem"; 
     }
 
     document.getElementById('sim-res-val-avg').textContent = shotsToBreak;
@@ -7371,10 +7322,11 @@ function simRunCombatCalculation() {
         const valDmgFar = document.getElementById('sim-res-val-dmg-far');
         if (pCount > 1) {
             valDmgFar.textContent = `${Math.round(damageOnPenFinal / pCount)}x${pCount} (${damageOnPenFinal})`;
-            valDmgFar.style.fontSize = "1.5rem"; 
+            valDmgFar.style.fontSize = "1.53rem"; // <-- MÁGICA: Fonte grande igualada
+            valDmgFar.style.whiteSpace = "nowrap"; // Impede que o texto quebre em duas linhas
         } else {
             valDmgFar.textContent = damageOnPenFinal;
-            valDmgFar.style.fontSize = "2.4rem"; 
+            valDmgFar.style.fontSize = "1.53rem"; 
         }
         
         document.getElementById('sim-res-val-avg-far').textContent = shotsToBreak;
